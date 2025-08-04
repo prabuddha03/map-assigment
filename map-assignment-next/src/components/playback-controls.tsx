@@ -21,14 +21,14 @@ import { useEffect } from "react";
 
 export default function PlaybackControls() {
   const dispatch = useDispatch();
-  const { isPlaying, playbackSpeed } = useSelector(
+  const { isPlaying, playbackSpeed, isRange } = useSelector(
     (state: RootState) => state.date
   );
 
   useEffect(() => {
     let interval: NodeJS.Timeout;
     
-    if (isPlaying) {
+    if (isPlaying && !isRange) {
       const delay = 1000 / playbackSpeed; // Base delay of 1 second, adjusted by speed
       interval = setInterval(() => {
         dispatch(advanceTime());
@@ -40,7 +40,14 @@ export default function PlaybackControls() {
         clearInterval(interval);
       }
     };
-  }, [isPlaying, playbackSpeed, dispatch]);
+  }, [isPlaying, playbackSpeed, isRange, dispatch]);
+
+  // Auto-pause when switching to range mode
+  useEffect(() => {
+    if (isRange && isPlaying) {
+      dispatch(setIsPlaying(false));
+    }
+  }, [isRange, isPlaying, dispatch]);
 
   return (
     <Card>
@@ -48,12 +55,13 @@ export default function PlaybackControls() {
         <CardTitle className="text-base">Playback</CardTitle>
       </CardHeader>
       <CardContent className="space-y-3">
-        <div className="flex items-center justify-center">
+        <div className="flex flex-col items-center gap-2">
           <Button
             variant={isPlaying ? "default" : "outline"}
             size="sm"
             onClick={() => dispatch(setIsPlaying(!isPlaying))}
             className="w-20"
+            disabled={isRange}
           >
             {isPlaying ? (
               <Pause className="h-4 w-4 mr-1" />
@@ -62,6 +70,11 @@ export default function PlaybackControls() {
             )}
             {isPlaying ? "Pause" : "Play"}
           </Button>
+          {isRange && (
+            <p className="text-xs text-muted-foreground text-center">
+              Playback disabled in range mode
+            </p>
+          )}
         </div>
 
         <div className="space-y-1">
@@ -71,6 +84,7 @@ export default function PlaybackControls() {
             onValueChange={(value) =>
               dispatch(setPlaybackSpeed(parseInt(value) as 1 | 2 | 4))
             }
+            disabled={isRange}
           >
             <SelectTrigger className="h-8">
               <SelectValue />

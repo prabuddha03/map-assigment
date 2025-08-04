@@ -5,13 +5,13 @@ import { Switch } from "@/components/ui/switch";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/store/store";
-import { setDate, setDateRange, setIsRange } from "@/store/slices/dateSlice";
+import { setDate, setDateRange, setIsRange, setIsPlaying } from "@/store/slices/dateSlice";
 import { format } from "date-fns";
 import { useState, useEffect } from "react";
 
 export default function SliderControl() {
   const dispatch = useDispatch();
-  const { selectedDate, selectedDateRange, isRange, minDate, maxDate } = useSelector(
+  const { selectedDate, selectedDateRange, isRange, minDate, maxDate, isPlaying } = useSelector(
     (state: RootState) => state.date
   );
 
@@ -42,6 +42,9 @@ export default function SliderControl() {
   };
 
   const handleSliderChange = (values: number[]) => {
+    // Prevent manual slider interaction during playback
+    if (isPlaying) return;
+    
     if (isRange && values.length === 2) {
       // Convert slider values to hour indices, then to exact hour timestamps
       const startHourIndex = Math.round((values[0] / 100) * totalHours);
@@ -77,6 +80,11 @@ export default function SliderControl() {
   };
 
   const handleToggleChange = (checked: boolean) => {
+    // Pause playback when switching to range mode
+    if (checked && isPlaying) {
+      dispatch(setIsPlaying(false));
+    }
+    
     dispatch(setIsRange(checked));
     if (checked && !selectedDateRange) {
       // Initialize range with a proper range (current date - 2 hours to current date + 2 hours)
@@ -99,12 +107,21 @@ export default function SliderControl() {
     <Card>
       <CardHeader>
         <div className="flex items-center justify-between">
-          <CardTitle>Time Control</CardTitle>
+          <div className="flex items-center gap-2">
+            <CardTitle>Time Control</CardTitle>
+            {isPlaying && (
+              <div className="flex items-center gap-1 px-2 py-1 bg-green-100 dark:bg-green-900 text-green-700 dark:text-green-300 text-xs rounded-md">
+                <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
+                PLAYING
+              </div>
+            )}
+          </div>
           <div className="flex items-center space-x-2">
             <span className="text-sm">Single</span>
             <Switch
               checked={isRange}
               onCheckedChange={handleToggleChange}
+              disabled={isPlaying} // Disable range toggle during playback
             />
             <span className="text-sm">Range</span>
           </div>
@@ -126,7 +143,7 @@ export default function SliderControl() {
               onValueChange={handleSliderChange}
               max={100}
               step={100 / totalHours} // Step by exactly one hour
-              className="w-full"
+              className={`w-full transition-opacity duration-200 ${isPlaying ? 'opacity-75 pointer-events-none' : 'opacity-100'}`}
               {...(isRange && { 
                 defaultValue: [25, 75],
                 minStepsBetweenThumbs: 100 / totalHours // Minimum gap of 1 hour
