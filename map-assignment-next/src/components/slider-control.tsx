@@ -58,9 +58,19 @@ export default function SliderControl() {
   const handleToggleChange = (checked: boolean) => {
     dispatch(setIsRange(checked));
     if (checked && !selectedDateRange) {
-      // Initialize range with current date as both start and end
-      const currentDateISO = new Date(selectedDate).toISOString();
-      dispatch(setDateRange([currentDateISO, currentDateISO]));
+      // Initialize range with a proper range (current date - 2 hours to current date + 2 hours)
+      const currentDate = new Date(selectedDate);
+      const startDate = new Date(currentDate.getTime() - 2 * 60 * 60 * 1000); // 2 hours before
+      const endDate = new Date(currentDate.getTime() + 2 * 60 * 60 * 1000); // 2 hours after
+      
+      // Ensure the range stays within min/max bounds
+      const minDateTime = new Date(minDate).getTime();
+      const maxDateTime = new Date(maxDate).getTime();
+      
+      const boundedStartDate = new Date(Math.max(startDate.getTime(), minDateTime));
+      const boundedEndDate = new Date(Math.min(endDate.getTime(), maxDateTime));
+      
+      dispatch(setDateRange([boundedStartDate.toISOString(), boundedEndDate.toISOString()]));
     }
   };
 

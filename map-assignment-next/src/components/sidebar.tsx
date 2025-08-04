@@ -14,7 +14,7 @@ import { Package2, TrendingUp, TrendingDown, DollarSign, Users, PieChart, BarCha
 import Link from "next/link";
 
 export default function Sidebar() {
-  const { currentDataPoint, loading } = useTimeSeriesData();
+  const { currentDataPoint, loading, isFutureData, isRange } = useTimeSeriesData();
   const [isInitialLoading, setIsInitialLoading] = useState(true);
 
   useEffect(() => {
@@ -42,11 +42,21 @@ export default function Sidebar() {
           ) : (
             <div className="space-y-3">
               {/* Financial Metrics */}
-              <Card>
+              <Card className={`${isFutureData ? 'border-dashed border-2 border-blue-400 bg-blue-50/30 dark:bg-blue-950/10' : ''}`}>
                 <CardHeader className="p-3 pb-2">
                   <CardTitle className="text-lg flex items-center gap-2">
                     <DollarSign className="h-4 w-4" />
                     Financial Overview
+                    {isFutureData && (
+                      <span className="px-1 py-0.5 text-xs bg-blue-100 text-blue-700 dark:bg-blue-900 dark:text-blue-300 rounded font-medium">
+                        {isRange ? 'PRED RANGE' : 'PREDICTED'}
+                      </span>
+                    )}
+                    {isRange && !isFutureData && (
+                      <span className="px-1 py-0.5 text-xs bg-green-100 text-green-700 dark:bg-green-900 dark:text-green-300 rounded font-medium">
+                        RANGE AVG
+                      </span>
+                    )}
                   </CardTitle>
                 </CardHeader>
                 <CardContent className="p-3 pt-0 space-y-2">
@@ -77,11 +87,21 @@ export default function Sidebar() {
               </Card>
 
               {/* Operations Metrics */}
-              <Card>
+              <Card className={`${isFutureData ? 'border-dashed border-2 border-blue-400 bg-blue-50/30 dark:bg-blue-950/10' : ''}`}>
                 <CardHeader className="p-3 pb-2">
                   <CardTitle className="text-lg flex items-center gap-2">
                     <BarChart3 className="h-4 w-4" />
                     Operations
+                    {isFutureData && (
+                      <span className="px-1 py-0.5 text-xs bg-blue-100 text-blue-700 dark:bg-blue-900 dark:text-blue-300 rounded font-medium">
+                        {isRange ? 'PRED RANGE' : 'PREDICTED'}
+                      </span>
+                    )}
+                    {isRange && !isFutureData && (
+                      <span className="px-1 py-0.5 text-xs bg-green-100 text-green-700 dark:bg-green-900 dark:text-green-300 rounded font-medium">
+                        RANGE AVG
+                      </span>
+                    )}
                   </CardTitle>
                 </CardHeader>
                 <CardContent className="p-3 pt-0 space-y-2">
@@ -105,11 +125,21 @@ export default function Sidebar() {
               </Card>
 
               {/* Shareholding Pattern */}
-              <Card>
+              <Card className={`${isFutureData ? 'border-dashed border-2 border-blue-400 bg-blue-50/30 dark:bg-blue-950/10' : ''}`}>
                 <CardHeader className="p-3 pb-2">
                   <CardTitle className="text-lg flex items-center gap-2">
                     <PieChart className="h-4 w-4" />
                     Shareholding
+                    {isFutureData && (
+                      <span className="px-1 py-0.5 text-xs bg-blue-100 text-blue-700 dark:bg-blue-900 dark:text-blue-300 rounded font-medium">
+                        {isRange ? 'PRED RANGE' : 'PREDICTED'}
+                      </span>
+                    )}
+                    {isRange && !isFutureData && (
+                      <span className="px-1 py-0.5 text-xs bg-green-100 text-green-700 dark:bg-green-900 dark:text-green-300 rounded font-medium">
+                        RANGE AVG
+                      </span>
+                    )}
                   </CardTitle>
                 </CardHeader>
                 <CardContent className="p-3 pt-0 space-y-2">

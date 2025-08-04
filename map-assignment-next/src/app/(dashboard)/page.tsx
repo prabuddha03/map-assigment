@@ -65,7 +65,7 @@ const iconMap: { [key: string]: React.FC<LucideProps> } = {
 
 export default function DashboardPage() {
   const [selectedFactory, setSelectedFactory] = useState<number | null>(null);
-  const { currentDataPoint, loading: timeSeriesLoading } = useTimeSeriesData();
+  const { currentDataPoint, loading: timeSeriesLoading, isFutureData, isRange } = useTimeSeriesData();
   
   // Get the selected date from Redux store
   const selectedDate = useSelector((state: RootState) => state.date.selectedDate);
@@ -74,45 +74,53 @@ export default function DashboardPage() {
   const kpiData: KpiData[] = useMemo(() => {
     if (!currentDataPoint) return [];
 
+    const trendSuffix = isFutureData ? " (predicted)" : isRange ? " (range avg)" : "";
+
     return [
       {
         id: 1,
         title: "Total Units",
         value: currentDataPoint.kpis.totalUnits.toLocaleString(),
-        trend: currentDataPoint.kpis.totalUnits > 1200000 ? "+15% from last month" : "+8% from last month",
+        trend: (currentDataPoint.kpis.totalUnits > 1200000 ? "+15% from last month" : "+8% from last month") + trendSuffix,
         status: "connected" as const,
         lastUpdated: currentDataPoint.timestamp,
-        statusReason: "Nominal"
+        statusReason: isFutureData ? "Predicted based on trends" : "Nominal"
       },
       {
         id: 2,
         title: "Avg Defect Rate",
         value: `${currentDataPoint.kpis.defectRate.toFixed(1)}%`,
-        trend: currentDataPoint.kpis.defectRate < 1.0 ? "-0.3% from last month" : "+0.2% from last month",
+        trend: (currentDataPoint.kpis.defectRate < 1.0 ? "-0.3% from last month" : "+0.2% from last month") + trendSuffix,
         status: currentDataPoint.kpis.defectRate > 1.2 ? "disconnected" as const : "connected" as const,
         lastUpdated: currentDataPoint.timestamp,
-        statusReason: currentDataPoint.kpis.defectRate > 1.2 ? "High defect rate detected" : "Nominal"
+        statusReason: currentDataPoint.kpis.defectRate > 1.2 
+          ? isFutureData ? "Predicted high defect rate" : "High defect rate detected" 
+          : isFutureData ? "Predicted optimal rate" : "Nominal"
       },
       {
         id: 3,
         title: "Total Energy Use",
         value: `${currentDataPoint.kpis.energyUse} MWh`,
-        trend: currentDataPoint.kpis.energyUse > 200 ? "+8% from last month" : "+3% from last month",
+        trend: (currentDataPoint.kpis.energyUse > 200 ? "+8% from last month" : "+3% from last month") + trendSuffix,
         status: currentDataPoint.kpis.energyUse > 220 ? "disconnected" as const : "connected" as const,
         lastUpdated: currentDataPoint.timestamp,
-        statusReason: currentDataPoint.kpis.energyUse > 220 ? "High consumption detected" : "Nominal"
+        statusReason: currentDataPoint.kpis.energyUse > 220 
+          ? isFutureData ? "Predicted high consumption" : "High consumption detected"
+          : isFutureData ? "Predicted normal usage" : "Nominal"
       },
       {
         id: 4,
         title: "Total Alerts",
         value: currentDataPoint.kpis.alerts.toString(),
-        trend: currentDataPoint.kpis.alerts > 15 ? "+7 since last hour" : "-3 since last hour",
+        trend: (currentDataPoint.kpis.alerts > 15 ? "+7 since last hour" : "-3 since last hour") + trendSuffix,
         status: currentDataPoint.kpis.alerts > 20 ? "disconnected" as const : "connected" as const,
         lastUpdated: currentDataPoint.timestamp,
-        statusReason: currentDataPoint.kpis.alerts > 20 ? "High alert volume" : "Nominal"
+        statusReason: currentDataPoint.kpis.alerts > 20 
+          ? isFutureData ? "Predicted high alert volume" : "High alert volume"
+          : isFutureData ? "Predicted low alerts" : "Nominal"
       }
     ];
-  }, [currentDataPoint]);
+  }, [currentDataPoint, isFutureData, isRange]);
 
   const FactoryMap = useMemo(
     () =>
@@ -171,6 +179,8 @@ export default function DashboardPage() {
                       lastUpdated={data.lastUpdated}
                       statusReason={data.statusReason}
                       isLoading={timeSeriesLoading}
+                      isFuture={isFutureData}
+                      isRange={isRange}
                     />
                   );
                 })}
