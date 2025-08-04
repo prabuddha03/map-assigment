@@ -108,7 +108,13 @@ export default function KpiCard({
           </p>
           <p className="text-xs text-muted-foreground">Reason: {statusReason}</p>
           <p className="text-xs text-muted-foreground">
-            {isRange ? "Range End: " : "Time: "}{new Date(lastUpdated).toLocaleString()}
+            {isRange ? "Range End: " : "Hour: "}{new Date(lastUpdated).toLocaleString('en-US', { 
+              month: 'short', 
+              day: '2-digit', 
+              hour: '2-digit', 
+              minute: '2-digit',
+              hour12: true 
+            })}
           </p>
           {isFuture && (
             <p className="text-xs text-blue-500 font-medium mt-1">

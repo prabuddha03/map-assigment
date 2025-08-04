@@ -77,7 +77,7 @@ export default function OverallDetails() {
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">{networkStatus.uptime.toFixed(1)}%</div>
-            <p className="text-xs text-muted-foreground">Last 24 hours</p>
+            <p className="text-xs text-muted-foreground">Current hour average</p>
           </CardContent>
         </Card>
         <Card>
@@ -99,7 +99,7 @@ export default function OverallDetails() {
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">{networkStatus.energyUsage} kWh</div>
-            <p className="text-xs text-muted-foreground">Current hour</p>
+            <p className="text-xs text-muted-foreground">Current hour total</p>
           </CardContent>
         </Card>
         <Card>

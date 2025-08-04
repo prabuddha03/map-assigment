@@ -32,25 +32,46 @@ export default function SliderControl() {
   const minTimestamp = new Date(minDate).getTime();
   const maxTimestamp = new Date(maxDate).getTime();
   const totalRange = maxTimestamp - minTimestamp;
+  const totalHours = Math.floor(totalRange / (60 * 60 * 1000)); // Total hours in the range
+
+  // Helper function to round to nearest hour
+  const roundToNearestHour = (date: Date) => {
+    const rounded = new Date(date);
+    rounded.setMinutes(0, 0, 0);
+    return rounded;
+  };
 
   const handleSliderChange = (values: number[]) => {
     if (isRange && values.length === 2) {
-      const startDate = new Date(minTimestamp + (values[0] / 100) * totalRange);
-      const endDate = new Date(minTimestamp + (values[1] / 100) * totalRange);
+      // Convert slider values to hour indices, then to exact hour timestamps
+      const startHourIndex = Math.round((values[0] / 100) * totalHours);
+      const endHourIndex = Math.round((values[1] / 100) * totalHours);
+      
+      const startDate = roundToNearestHour(new Date(minTimestamp + startHourIndex * 60 * 60 * 1000));
+      const endDate = roundToNearestHour(new Date(minTimestamp + endHourIndex * 60 * 60 * 1000));
+      
       dispatch(setDateRange([startDate.toISOString(), endDate.toISOString()]));
     } else {
-      const newDate = new Date(minTimestamp + (values[0] / 100) * totalRange);
+      // Convert slider value to hour index, then to exact hour timestamp
+      const hourIndex = Math.round((values[0] / 100) * totalHours);
+      const newDate = roundToNearestHour(new Date(minTimestamp + hourIndex * 60 * 60 * 1000));
       dispatch(setDate(newDate.toISOString()));
     }
   };
 
   const getCurrentSliderValue = () => {
     if (isRange && selectedDateRange) {
-      const startPercent = ((new Date(selectedDateRange[0]).getTime() - minTimestamp) / totalRange) * 100;
-      const endPercent = ((new Date(selectedDateRange[1]).getTime() - minTimestamp) / totalRange) * 100;
+      // Convert timestamps back to hour indices, then to percentages
+      const startHourIndex = Math.round((new Date(selectedDateRange[0]).getTime() - minTimestamp) / (60 * 60 * 1000));
+      const endHourIndex = Math.round((new Date(selectedDateRange[1]).getTime() - minTimestamp) / (60 * 60 * 1000));
+      
+      const startPercent = (startHourIndex / totalHours) * 100;
+      const endPercent = (endHourIndex / totalHours) * 100;
       return [startPercent, endPercent];
     } else {
-      const percent = ((new Date(selectedDate).getTime() - minTimestamp) / totalRange) * 100;
+      // Convert timestamp back to hour index, then to percentage
+      const hourIndex = Math.round((new Date(selectedDate).getTime() - minTimestamp) / (60 * 60 * 1000));
+      const percent = (hourIndex / totalHours) * 100;
       return [percent];
     }
   };
@@ -59,16 +80,16 @@ export default function SliderControl() {
     dispatch(setIsRange(checked));
     if (checked && !selectedDateRange) {
       // Initialize range with a proper range (current date - 2 hours to current date + 2 hours)
-      const currentDate = new Date(selectedDate);
+      const currentDate = roundToNearestHour(new Date(selectedDate));
       const startDate = new Date(currentDate.getTime() - 2 * 60 * 60 * 1000); // 2 hours before
       const endDate = new Date(currentDate.getTime() + 2 * 60 * 60 * 1000); // 2 hours after
       
-      // Ensure the range stays within min/max bounds
+      // Ensure the range stays within min/max bounds and round to nearest hour
       const minDateTime = new Date(minDate).getTime();
       const maxDateTime = new Date(maxDate).getTime();
       
-      const boundedStartDate = new Date(Math.max(startDate.getTime(), minDateTime));
-      const boundedEndDate = new Date(Math.min(endDate.getTime(), maxDateTime));
+      const boundedStartDate = roundToNearestHour(new Date(Math.max(startDate.getTime(), minDateTime)));
+      const boundedEndDate = roundToNearestHour(new Date(Math.min(endDate.getTime(), maxDateTime)));
       
       dispatch(setDateRange([boundedStartDate.toISOString(), boundedEndDate.toISOString()]));
     }
@@ -104,11 +125,11 @@ export default function SliderControl() {
               value={getCurrentSliderValue()}
               onValueChange={handleSliderChange}
               max={100}
-              step={0.1}
+              step={100 / totalHours} // Step by exactly one hour
               className="w-full"
               {...(isRange && { 
                 defaultValue: [25, 75],
-                minStepsBetweenThumbs: 1
+                minStepsBetweenThumbs: 100 / totalHours // Minimum gap of 1 hour
               })}
             />
           </div>
