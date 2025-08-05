@@ -10,7 +10,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Package2, TrendingUp, TrendingDown, DollarSign, Users, PieChart, BarChart3 } from "lucide-react";
+import { Package2, TrendingUp, TrendingDown, DollarSign, Users, PieChart, BarChart3, Map } from "lucide-react";
 import Link from "next/link";
 
 export default function Sidebar() {
@@ -37,6 +37,23 @@ export default function Sidebar() {
       </div>
       <div className="flex-1 overflow-y-auto">
         <nav className="grid items-start px-2 text-sm font-medium lg:px-4">
+          {/* Navigation Links */}
+          <div className="mb-4 space-y-1">
+            <Link
+              href="/"
+              className="flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary hover:bg-muted"
+            >
+              <BarChart3 className="h-4 w-4" />
+              Dashboard
+            </Link>
+            <Link
+              href="/map"
+              className="flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary hover:bg-muted"
+            >
+              <Map className="h-4 w-4" />
+              Map Project
+            </Link>
+          </div>
           {isLoading || !currentDataPoint ? (
             <SidebarMetricsSkeleton />
           ) : (

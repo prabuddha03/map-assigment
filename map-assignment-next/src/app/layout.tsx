@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Montserrat, Poppins } from "next/font/google";
+import { ReduxProvider } from "@/providers/redux-provider";
 import "./globals.css";
 
 const fontSans = Montserrat({
@@ -28,7 +29,9 @@ export default function RootLayout({
       <body
         className={`font-sans ${fontSans.variable} ${fontHeading.variable}`}
       >
-        {children}
+        <ReduxProvider>
+          {children}
+        </ReduxProvider>
       </body>
     </html>
   );

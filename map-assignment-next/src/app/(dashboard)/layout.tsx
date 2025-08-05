@@ -1,7 +1,6 @@
 import MobileMenu from "@/components/mobile-menu";
 import Sidebar from "@/components/sidebar";
 import AlertManager from "@/components/alert-manager";
-import { ReduxProvider } from "@/providers/redux-provider";
 import { ThemeProvider } from "@/providers/theme-provider";
 import { Toaster } from "sonner";
 
@@ -11,8 +10,7 @@ export default function DashboardLayout({
   children: React.ReactNode;
 }) {
   return (
-    <ReduxProvider>
-      <ThemeProvider
+    <ThemeProvider
         attribute="class"
         defaultTheme="system"
         enableSystem
@@ -32,6 +30,5 @@ export default function DashboardLayout({
         <AlertManager />
         <Toaster />
       </ThemeProvider>
-    </ReduxProvider>
   );
 }
