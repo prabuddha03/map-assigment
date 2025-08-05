@@ -3,7 +3,7 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '@/store/store';
-import { setDrawing, saveAllPolygons, clearUnsavedPolygons } from '@/store/slices/polygonSlice';
+import { setDrawing, saveAllPolygons, clearUnsavedPolygons, clearAllPolygons } from '@/store/slices/polygonSlice';
 import { Button } from '@/components/ui/button';
 import { Hexagon, Save, Trash2 } from 'lucide-react';
 
@@ -29,6 +29,12 @@ const DrawingControls: React.FC<DrawingControlsProps> = ({ className = "" }) => 
 
   const handleClearUnsaved = () => {
     dispatch(clearUnsavedPolygons());
+  };
+
+  const handleClearAll = () => {
+    if (window.confirm('Are you sure you want to delete all polygons? This action cannot be undone.')) {
+      dispatch(clearAllPolygons());
+    }
   };
 
   const unsavedCount = polygons.filter(p => !savedPolygons.some(s => s.id === p.id)).length;
@@ -60,14 +66,13 @@ const DrawingControls: React.FC<DrawingControlsProps> = ({ className = "" }) => 
             </Button>
 
             <Button
-              variant="outline"
+              variant="destructive"
               size="sm"
-              onClick={handleClearUnsaved}
-              disabled={unsavedCount === 0}
+              onClick={handleClearAll}
               className="flex items-center gap-2"
             >
               <Trash2 className="h-4 w-4" />
-              Clear Unsaved
+              Clear All
             </Button>
           </>
         )}

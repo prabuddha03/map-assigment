@@ -62,6 +62,9 @@ const PolygonDrawer: React.FC = () => {
           }));
         }
 
+        // Remove the drawing layer from the map since we are now managing it in Redux
+        layer.remove();
+
         dispatch(setDrawing(false));
         setCurrentPolygon(null);
       }

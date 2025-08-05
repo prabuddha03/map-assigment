@@ -200,14 +200,20 @@ const polygonSlice = createSlice({
     },
 
     clearUnsavedPolygons: (state) => {
-      // Keep only saved polygons
-      state.polygons = state.polygons.filter(polygon => 
-        state.savedPolygons.some(saved => saved.id === polygon.id)
-      );
+      state.polygons = state.polygons.filter(p => state.savedPolygons.some(sp => sp.id === p.id));
+    },
+
+    clearAllPolygons: (state) => {
+      state.polygons = [];
+      state.savedPolygons = [];
       state.selectedPolygon = null;
-      state.isDrawing = false;
+      state.hiddenPolygons = [];
+      if (typeof window !== 'undefined') {
+        localStorage.removeItem('saved-polygons');
+      }
     },
   },
+  
 });
 
 export const {
@@ -221,6 +227,7 @@ export const {
   saveAllPolygons,
   loadSavedPolygons,
   clearUnsavedPolygons,
+  clearAllPolygons,
   addColorRule,
   removeColorRule,
 } = polygonSlice.actions;

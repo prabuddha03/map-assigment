@@ -1,9 +1,10 @@
 import { createSlice, PayloadAction, createAsyncThunk } from '@reduxjs/toolkit';
 import { ColorRule, Polygon } from '@/types/polygon';
 
+
 interface WeatherData {
   hourly: {
-    time: string[];
+    time: string[] ;
     [key: string]: (number | null)[];
   };
 }
@@ -73,7 +74,8 @@ const timelineSlice = createSlice({
       .addCase(fetchWeatherData.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload as string;
-      });
+      })
+      ;
   },
 });
 
