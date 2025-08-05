@@ -1,0 +1,101 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": { "continent": "Africa" },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [-17.4, 37.1],
+            [51.2, 34.6],
+            [49.1, -12.3],
+            [13.2, -34.8],
+            [-17.4, 37.1]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": { "continent": "Asia" },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [35.0, 79.0],
+            [180.0, 79.0],
+            [180.0, -11.0],
+            [100.0, -11.0],
+            [25.0, 30.0],
+            [35.0, 79.0]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": { "continent": "Europe" },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [-10.8, 71.1],
+            [40.1, 71.1],
+            [40.1, 35.0],
+            [-10.8, 35.0],
+            [-10.8, 71.1]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": { "continent": "North America" },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [-168.0, 71.5],
+            [-52.2, 83.1],
+            [-10.0, 30.0],
+            [-124.2, 8.5],
+            [-168.0, 71.5]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": { "continent": "South America" },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [-81.2, 12.5],
+            [-34.8, -5.8],
+            [-56.0, -55.9],
+            [-81.2, 12.5]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": { "continent": "Oceania" },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [113.3, -10.5],
+            [153.6, -10.5],
+            [153.6, -43.7],
+            [113.3, -43.7],
+            [113.3, -10.5]
+          ]
+        ]
+      }
+    }
+  ]
+}

@@ -1,0 +1,42 @@
+[
+  {
+    "id": 1,
+    "name": "Madhyamgram Tech Park",
+    "position": [22.7, 88.45],
+    "status": "healthy",
+    "stats": {
+      "uptime": "99.8%",
+      "production": "4,500 units/day"
+    }
+  },
+  {
+    "id": 2,
+    "name": "Salt Lake Electronics Complex",
+    "position": [22.58, 88.41],
+    "status": "critical",
+    "stats": {
+      "uptime": "92.1%",
+      "production": "2,100 units/day"
+    }
+  },
+  {
+    "id": 3,
+    "name": "Jadavpur Industrial Estate",
+    "position": [22.49, 88.37],
+    "status": "healthy",
+    "stats": {
+      "uptime": "99.9%",
+      "production": "5,200 units/day"
+    }
+  },
+  {
+    "id": 4,
+    "name": "Esplanade Manufacturing Hub",
+    "position": [22.56, 88.35],
+    "status": "warning",
+    "stats": {
+      "uptime": "97.5%",
+      "production": "3,800 units/day"
+    }
+  }
+]

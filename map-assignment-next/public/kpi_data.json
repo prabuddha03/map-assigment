@@ -1,0 +1,38 @@
+[
+  {
+    "id": 1,
+    "title": "Total Units",
+    "value": "12,450",
+    "trend": "+12% from last month",
+    "status": "connected",
+    "lastUpdated": "2023-12-25 10:30:00",
+    "statusReason": "Nominal"
+  },
+  {
+    "id": 2,
+    "title": "Avg Defect Rate",
+    "value": "1.2%",
+    "trend": "-0.5% from last month",
+    "status": "connected",
+    "lastUpdated": "2023-12-25 10:30:00",
+    "statusReason": "Nominal"
+  },
+  {
+    "id": 3,
+    "title": "Total Energy Use",
+    "value": "45 MWh",
+    "trend": "+2% from yesterday",
+    "status": "disconnected",
+    "lastUpdated": "2023-12-25 09:15:00",
+    "statusReason": "Sensor offline"
+  },
+  {
+    "id": 4,
+    "title": "Total Alerts",
+    "value": "23",
+    "trend": "+5 from last hour",
+    "status": "connected",
+    "lastUpdated": "2023-12-25 10:30:00",
+    "statusReason": "Nominal"
+  }
+]

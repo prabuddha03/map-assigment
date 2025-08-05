@@ -1,0 +1,499 @@
+[
+  {
+    "timestamp": "2024-12-10T10:00:00.000Z",
+    "factories": [
+      {
+        "id": 1,
+        "name": "Madhyamgram",
+        "production": 4200,
+        "status": "healthy",
+        "energy": 45
+      },
+      {
+        "id": 2,
+        "name": "Saltlake",
+        "production": 3800,
+        "status": "warning",
+        "energy": 52
+      },
+      {
+        "id": 3,
+        "name": "Jadavpur",
+        "production": 3200,
+        "status": "healthy",
+        "energy": 38
+      },
+      {
+        "id": 4,
+        "name": "Esplanade",
+        "production": 2800,
+        "status": "critical",
+        "energy": 41
+      }
+    ],
+    "kpis": {
+      "totalUnits": 14000,
+      "defectRate": 1.2,
+      "energyUse": 176,
+      "alerts": 23
+    },
+    "userbase": {
+      "Africa": {
+        "count": 45000,
+        "change": 2.1,
+        "products": ["Product A", "Product C", "Product E"]
+      },
+      "Asia": {
+        "count": 120000,
+        "change": 5.8,
+        "products": ["Product B", "Product A", "Product D"]
+      },
+      "Europe": {
+        "count": 85000,
+        "change": -1.2,
+        "products": ["Product C", "Product B", "Product A"]
+      },
+      "North America": {
+        "count": 95000,
+        "change": 3.4,
+        "products": ["Product A", "Product D", "Product B"]
+      },
+      "South America": {
+        "count": 35000,
+        "change": 1.8,
+        "products": ["Product E", "Product A", "Product C"]
+      },
+      "Oceania": {
+        "count": 15000,
+        "change": 0.9,
+        "products": ["Product B", "Product D", "Product A"]
+      }
+    }
+  },
+  {
+    "timestamp": "2024-12-15T10:00:00.000Z",
+    "factories": [
+      {
+        "id": 1,
+        "name": "Madhyamgram",
+        "production": 4350,
+        "status": "healthy",
+        "energy": 47
+      },
+      {
+        "id": 2,
+        "name": "Saltlake",
+        "production": 3950,
+        "status": "healthy",
+        "energy": 49
+      },
+      {
+        "id": 3,
+        "name": "Jadavpur",
+        "production": 3350,
+        "status": "warning",
+        "energy": 42
+      },
+      {
+        "id": 4,
+        "name": "Esplanade",
+        "production": 2950,
+        "status": "healthy",
+        "energy": 39
+      }
+    ],
+    "kpis": {
+      "totalUnits": 14600,
+      "defectRate": 1.1,
+      "energyUse": 177,
+      "alerts": 18
+    },
+    "userbase": {
+      "Africa": {
+        "count": 46200,
+        "change": 2.7,
+        "products": ["Product A", "Product C", "Product E"]
+      },
+      "Asia": {
+        "count": 123000,
+        "change": 2.5,
+        "products": ["Product B", "Product A", "Product D"]
+      },
+      "Europe": {
+        "count": 84500,
+        "change": -0.6,
+        "products": ["Product C", "Product B", "Product A"]
+      },
+      "North America": {
+        "count": 97200,
+        "change": 2.3,
+        "products": ["Product A", "Product D", "Product B"]
+      },
+      "South America": {
+        "count": 35800,
+        "change": 2.3,
+        "products": ["Product E", "Product A", "Product C"]
+      },
+      "Oceania": {
+        "count": 15200,
+        "change": 1.3,
+        "products": ["Product B", "Product D", "Product A"]
+      }
+    }
+  },
+  {
+    "timestamp": "2024-12-20T10:00:00.000Z",
+    "factories": [
+      {
+        "id": 1,
+        "name": "Madhyamgram",
+        "production": 4500,
+        "status": "healthy",
+        "energy": 49
+      },
+      {
+        "id": 2,
+        "name": "Saltlake",
+        "production": 4100,
+        "status": "healthy",
+        "energy": 47
+      },
+      {
+        "id": 3,
+        "name": "Jadavpur",
+        "production": 3600,
+        "status": "healthy",
+        "energy": 44
+      },
+      {
+        "id": 4,
+        "name": "Esplanade",
+        "production": 3200,
+        "status": "warning",
+        "energy": 42
+      }
+    ],
+    "kpis": {
+      "totalUnits": 15400,
+      "defectRate": 1.0,
+      "energyUse": 182,
+      "alerts": 15
+    },
+    "userbase": {
+      "Africa": {
+        "count": 48500,
+        "change": 5.0,
+        "products": ["Product A", "Product B", "Product C"]
+      },
+      "Asia": {
+        "count": 128000,
+        "change": 4.1,
+        "products": ["Product B", "Product A", "Product D"]
+      },
+      "Europe": {
+        "count": 86500,
+        "change": 2.4,
+        "products": ["Product A", "Product C", "Product B"]
+      },
+      "North America": {
+        "count": 102000,
+        "change": 4.9,
+        "products": ["Product A", "Product D", "Product B"]
+      },
+      "South America": {
+        "count": 38500,
+        "change": 7.6,
+        "products": ["Product A", "Product E", "Product C"]
+      },
+      "Oceania": {
+        "count": 16800,
+        "change": 10.5,
+        "products": ["Product A", "Product B", "Product D"]
+      }
+    }
+  },
+  {
+    "timestamp": "2024-12-25T10:00:00.000Z",
+    "factories": [
+      {
+        "id": 1,
+        "name": "Madhyamgram",
+        "production": 4800,
+        "status": "healthy",
+        "energy": 51
+      },
+      {
+        "id": 2,
+        "name": "Saltlake",
+        "production": 4200,
+        "status": "healthy",
+        "energy": 48
+      },
+      {
+        "id": 3,
+        "name": "Jadavpur",
+        "production": 3800,
+        "status": "healthy",
+        "energy": 45
+      },
+      {
+        "id": 4,
+        "name": "Esplanade",
+        "production": 3400,
+        "status": "warning",
+        "energy": 43
+      }
+    ],
+    "kpis": {
+      "totalUnits": 16200,
+      "defectRate": 0.9,
+      "energyUse": 187,
+      "alerts": 12
+    },
+    "userbase": {
+      "Africa": {
+        "count": 52000,
+        "change": 12.5,
+        "products": ["Product A", "Product B", "Product C"]
+      },
+      "Asia": {
+        "count": 135000,
+        "change": 9.8,
+        "products": ["Product B", "Product A", "Product D"]
+      },
+      "Europe": {
+        "count": 89000,
+        "change": 5.3,
+        "products": ["Product A", "Product C", "Product B"]
+      },
+      "North America": {
+        "count": 108000,
+        "change": 11.2,
+        "products": ["Product A", "Product D", "Product B"]
+      },
+      "South America": {
+        "count": 42000,
+        "change": 17.1,
+        "products": ["Product A", "Product E", "Product C"]
+      },
+      "Oceania": {
+        "count": 18500,
+        "change": 23.3,
+        "products": ["Product A", "Product B", "Product D"]
+      }
+    }
+  },
+  {
+    "timestamp": "2024-12-30T10:00:00.000Z",
+    "factories": [
+      {
+        "id": 1,
+        "name": "Madhyamgram",
+        "production": 5000,
+        "status": "healthy",
+        "energy": 53
+      },
+      {
+        "id": 2,
+        "name": "Saltlake",
+        "production": 4400,
+        "status": "healthy",
+        "energy": 50
+      },
+      {
+        "id": 3,
+        "name": "Jadavpur",
+        "production": 4000,
+        "status": "healthy",
+        "energy": 47
+      },
+      {
+        "id": 4,
+        "name": "Esplanade",
+        "production": 3600,
+        "status": "healthy",
+        "energy": 45
+      }
+    ],
+    "kpis": {
+      "totalUnits": 17000,
+      "defectRate": 0.8,
+      "energyUse": 195,
+      "alerts": 10
+    },
+    "userbase": {
+      "Africa": {
+        "count": 55000,
+        "change": 15.8,
+        "products": ["Product A", "Product B", "Product C"]
+      },
+      "Asia": {
+        "count": 140000,
+        "change": 12.1,
+        "products": ["Product A", "Product B", "Product D"]
+      },
+      "Europe": {
+        "count": 91000,
+        "change": 8.2,
+        "products": ["Product A", "Product C", "Product B"]
+      },
+      "North America": {
+        "count": 112000,
+        "change": 14.7,
+        "products": ["Product A", "Product D", "Product B"]
+      },
+      "South America": {
+        "count": 45000,
+        "change": 21.4,
+        "products": ["Product A", "Product E", "Product C"]
+      },
+      "Oceania": {
+        "count": 20000,
+        "change": 28.6,
+        "products": ["Product A", "Product B", "Product D"]
+      }
+    }
+  },
+  {
+    "timestamp": "2025-01-03T10:00:00.000Z",
+    "factories": [
+      {
+        "id": 1,
+        "name": "Madhyamgram",
+        "production": 5100,
+        "status": "healthy",
+        "energy": 54
+      },
+      {
+        "id": 2,
+        "name": "Saltlake",
+        "production": 4500,
+        "status": "healthy",
+        "energy": 51
+      },
+      {
+        "id": 3,
+        "name": "Jadavpur",
+        "production": 4100,
+        "status": "healthy",
+        "energy": 47
+      },
+      {
+        "id": 4,
+        "name": "Esplanade",
+        "production": 3700,
+        "status": "healthy",
+        "energy": 45
+      }
+    ],
+    "kpis": {
+      "totalUnits": 17400,
+      "defectRate": 0.7,
+      "energyUse": 197,
+      "alerts": 9
+    },
+    "userbase": {
+      "Africa": {
+        "count": 56500,
+        "change": 13.2,
+        "products": ["Product A", "Product B", "Product C"]
+      },
+      "Asia": {
+        "count": 142000,
+        "change": 10.5,
+        "products": ["Product A", "Product B", "Product D"]
+      },
+      "Europe": {
+        "count": 91800,
+        "change": 6.8,
+        "products": ["Product A", "Product C", "Product B"]
+      },
+      "North America": {
+        "count": 113500,
+        "change": 12.1,
+        "products": ["Product A", "Product D", "Product B"]
+      },
+      "South America": {
+        "count": 46200,
+        "change": 18.9,
+        "products": ["Product A", "Product E", "Product C"]
+      },
+      "Oceania": {
+        "count": 21000,
+        "change": 25.7,
+        "products": ["Product A", "Product B", "Product D"]
+      }
+    }
+  },
+  {
+    "timestamp": "2025-01-08T10:00:00.000Z",
+    "factories": [
+      {
+        "id": 1,
+        "name": "Madhyamgram",
+        "production": 5200,
+        "status": "healthy",
+        "energy": 55
+      },
+      {
+        "id": 2,
+        "name": "Saltlake",
+        "production": 4600,
+        "status": "healthy",
+        "energy": 52
+      },
+      {
+        "id": 3,
+        "name": "Jadavpur",
+        "production": 4200,
+        "status": "healthy",
+        "energy": 48
+      },
+      {
+        "id": 4,
+        "name": "Esplanade",
+        "production": 3800,
+        "status": "healthy",
+        "energy": 46
+      }
+    ],
+    "kpis": {
+      "totalUnits": 17800,
+      "defectRate": 0.8,
+      "energyUse": 201,
+      "alerts": 8
+    },
+    "userbase": {
+      "Africa": {
+        "count": 58000,
+        "change": 11.5,
+        "products": ["Product A", "Product B", "Product C"]
+      },
+      "Asia": {
+        "count": 145000,
+        "change": 7.4,
+        "products": ["Product A", "Product B", "Product D"]
+      },
+      "Europe": {
+        "count": 92000,
+        "change": 3.4,
+        "products": ["Product A", "Product C", "Product B"]
+      },
+      "North America": {
+        "count": 115000,
+        "change": 6.5,
+        "products": ["Product A", "Product D", "Product B"]
+      },
+      "South America": {
+        "count": 48000,
+        "change": 14.3,
+        "products": ["Product A", "Product E", "Product C"]
+      },
+      "Oceania": {
+        "count": 22000,
+        "change": 18.9,
+        "products": ["Product A", "Product B", "Product D"]
+      }
+    }
+  }
+]
