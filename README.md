@@ -7,6 +7,29 @@ A modern, responsive web application built with **Next.js 15** and **TypeScript*
 - **Primary Assignment**: [Map Interface](/map) - Interactive mapping with weather data
 - **Bonus Dashboard**: [Dashboard](/dashboard) - Comprehensive IoT dashboard (initial approach)
 
+## 📸 Screenshots
+
+### Desktop Interface
+
+![Desktop Main View](map-assignment-next/desktop2.png)
+_Main map interface with polygon drawing, weather data visualization, and timeline controls_
+
+![Desktop Controls](map-assignment-next/desktopmain.png)
+_Detailed view of map controls, polygon management, and color rule configuration_
+
+### Mobile Responsive Design
+
+![Mobile Basic View](map-assignment-next/mobile-basic.png)
+_Mobile-optimized interface with touch-friendly controls_
+
+![Mobile Menu](map-assignment-next/mobile-menu.png)
+_Mobile sidebar with polygon management and settings_
+
+### Data Persistence
+
+![Local Storage](map-assignment-next/localstorage.png)
+_Browser developer tools showing localStorage persistence of polygon data_
+
 ## ✨ Key Features
 
 ### Core Functionality
@@ -287,6 +310,7 @@ The application is optimized for deployment on Vercel with Next.js.
 This project is part of a hiring assignment and is for demonstration purposes.
 
 ## 👨‍💻 Author
+
 **Prabuddha Choudhury**
 
 - Full Stack Developer with 11+ months of internship experience

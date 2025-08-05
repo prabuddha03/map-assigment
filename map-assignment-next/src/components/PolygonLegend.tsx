@@ -67,8 +67,8 @@ const PolygonLegend: React.FC<PolygonLegendProps> = ({ polygons, dataType }) => 
       return 'No source';
     }
     
-    // Ensure timeRange[0] is within bounds
-    const timeIndex = Math.min(Math.max(0, timeRange[0]), dataArray.length - 1);
+    // Use the end of the time range (right handle) for legend display
+    const timeIndex = Math.min(Math.max(0, timeRange[1]), dataArray.length - 1);
     let value = dataArray[timeIndex];
     let isAveraged = false;
     

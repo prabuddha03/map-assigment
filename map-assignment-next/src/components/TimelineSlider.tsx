@@ -26,6 +26,7 @@ const TimelineSlider = () => {
   const totalHours = 30 * 24;
 
   const handleSliderChange = (newRange: number[]) => {
+    console.log('Slider changed:', newRange);
     dispatch(setTimeRange(newRange as [number, number]));
   };
 
@@ -80,6 +81,7 @@ const TimelineSlider = () => {
             value={timeRange}
             onValueChange={handleSliderChange}
             minStepsBetweenThumbs={1}
+            className="w-full"
           />
           <div className="flex justify-between mt-2 text-xs text-muted-foreground">
             <span>{formatHourToDate(timeRange[0])}</span>
