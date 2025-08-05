@@ -3,6 +3,7 @@
 import React, { Suspense, useEffect, useState } from "react";
 import dynamic from "next/dynamic";
 import { useDispatch, useSelector } from 'react-redux';
+import { LatLngExpression } from 'leaflet';
 import { loadSavedPolygons } from '@/store/slices/polygonSlice';
 import { fetchWeatherData } from '@/store/slices/timelineSlice';
 import { RootState, AppDispatch } from '@/store/store';
@@ -10,13 +11,10 @@ import MapSidebar from "@/components/MapSidebar";
 import MapSkeleton from "@/components/map-skeleton";
 import TimelineSlider from "@/components/TimelineSlider";
 
-
-
-
 const Map = dynamic(() => import("@/components/Map"), {
   loading: () => <MapSkeleton />,
   ssr: false,
-    });
+});
 
 export default function MapPage() {
   const dispatch: AppDispatch = useDispatch();

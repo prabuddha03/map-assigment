@@ -145,7 +145,7 @@ const createMockStore = (initialState = {}) => {
         timeRange: [0, 24],
         dataType: 'temperature_2m',
         polygonData: {},
-        ...initialState.timeline,
+        ...(initialState as any)?.timeline,
       },
     },
   });

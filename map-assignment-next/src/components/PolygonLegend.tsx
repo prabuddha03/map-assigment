@@ -96,13 +96,13 @@ const PolygonLegend: React.FC<PolygonLegendProps> = ({ polygons, dataType }) => 
       }
       
       if (validValues.length > 0) {
-        value = validValues.reduce((sum, val) => sum + val, 0) / validValues.length;
+        value = validValues.reduce((sum: number, val) => sum + Number(val), 0) / validValues.length;
         isAveraged = true;
       } else {
         // Strategy 2: Get overall average from the entire dataset
         const allValidValues = dataArray.filter(val => val !== null && typeof val !== 'undefined');
         if (allValidValues.length > 0) {
-          value = allValidValues.reduce((sum, val) => sum + val, 0) / allValidValues.length;
+          value = allValidValues.reduce((sum: number, val) => sum + Number(val), 0) / allValidValues.length;
           isAveraged = true;
         } else {
           return 'No data';
@@ -112,15 +112,16 @@ const PolygonLegend: React.FC<PolygonLegendProps> = ({ polygons, dataType }) => 
     
     // Format based on data type
     const suffix = isAveraged ? ' (avg)' : '';
+    const numValue = Number(value);
     switch (dataType) {
       case 'temperature_2m':
-        return `${value.toFixed(1)}°C${suffix}`;
+        return `${numValue.toFixed(1)}°C${suffix}`;
       case 'precipitation':
-        return `${value.toFixed(1)}mm${suffix}`;
+        return `${numValue.toFixed(1)}mm${suffix}`;
       case 'wind_speed_10m':
-        return `${value.toFixed(1)}km/h${suffix}`;
+        return `${numValue.toFixed(1)}km/h${suffix}`;
       default:
-        return `${value.toString()}${suffix}`;
+        return `${numValue.toString()}${suffix}`;
     }
   };
 

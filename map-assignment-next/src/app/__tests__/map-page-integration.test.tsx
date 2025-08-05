@@ -144,13 +144,13 @@ const createMockStore = (initialState = {}) => {
         selectedPolygon: null,
         hiddenPolygons: [],
         isDrawing: false,
-        ...initialState.polygon,
+        ...(initialState as any)?.polygon,
       },
       timeline: {
         timeRange: [0, 24],
         dataType: 'temperature_2m',
         polygonData: {},
-        ...initialState.timeline,
+        ...(initialState as any)?.timeline,
       },
     },
   });
@@ -219,13 +219,13 @@ describe("Map Page Integration Tests", () => {
       renderWithProvider();
       
       const sidebar = screen.getByTestId("sidebar-container");
-      expect(sidebar).toHaveClass("hidden", "md:block");
+      expect(sidebar).toHaveClass("hidden md:block");
       
       // Open mobile sidebar
       const openBtn = screen.getByTestId("mobile-controls-btn");
       fireEvent.click(openBtn);
       
-      expect(sidebar).toHaveClass("fixed", "inset-0", "z-50");
+      expect(sidebar).toHaveClass("fixed inset-0 z-50");
     });
 
     it("shows close button in mobile sidebar", () => {
@@ -237,7 +237,7 @@ describe("Map Page Integration Tests", () => {
       
       const closeBtn = screen.getByTestId("close-sidebar-btn");
       expect(closeBtn).toBeInTheDocument();
-      expect(closeBtn).toHaveClass("md:hidden", "text-red-500");
+      expect(closeBtn).toHaveClass("md:hidden text-red-500");
     });
 
     it("closes mobile sidebar when close button clicked", () => {
@@ -254,7 +254,7 @@ describe("Map Page Integration Tests", () => {
       const closeBtn = screen.getByTestId("close-sidebar-btn");
       fireEvent.click(closeBtn);
       
-      expect(sidebar).toHaveClass("hidden", "md:block");
+      expect(sidebar).toHaveClass("hidden md:block");
     });
 
     it("adjusts map opacity when mobile sidebar is open", () => {
@@ -335,10 +335,10 @@ describe("Map Page Integration Tests", () => {
       renderWithProvider();
       
       const pageContainer = screen.getByTestId("map-page");
-      expect(pageContainer).toHaveClass("flex", "flex-col", "h-screen", "w-full");
+      expect(pageContainer).toHaveClass("flex flex-col h-screen w-full");
       
       const mainContent = screen.getByTestId("map-container").parentElement;
-      expect(mainContent).toHaveClass("flex-1", "relative");
+      expect(mainContent).toHaveClass("flex-1 relative");
     });
   });
 

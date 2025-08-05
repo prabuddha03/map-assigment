@@ -110,13 +110,13 @@ const createMockStore = (initialState = {}) => {
         savedPolygons: [],
         selectedPolygon: null,
         hiddenPolygons: [],
-        ...initialState.polygon,
+        ...(initialState as any)?.polygon,
       },
       timeline: {
         timeRange: [0, 24],
         dataType: 'temperature_2m',
         polygonData: {},
-        ...initialState.timeline,
+        ...(initialState as any)?.timeline,
       },
     },
   });
@@ -287,7 +287,7 @@ describe("Map Component", () => {
     renderWithProvider();
     
     const mapContainer = screen.getByTestId("map-container");
-    expect(mapContainer).toHaveClass("h-full", "w-full", "relative");
+    expect(mapContainer).toHaveClass("h-full w-full relative");
   });
 
   it("passes polygon count to legend component", () => {

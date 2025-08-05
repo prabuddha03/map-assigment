@@ -29,13 +29,13 @@ const createMockStore = (initialState = {}) => {
         selectedPolygon: null,
         hiddenPolygons: [],
         isDrawing: false,
-        ...initialState.polygon,
+        ...(initialState as any)?.polygon,
       },
       timeline: {
         timeRange: [0, 24],
         dataType: 'temperature_2m',
         polygonData: {},
-        ...initialState.timeline,
+        ...(initialState as any)?.timeline,
       },
     },
   });
@@ -287,7 +287,7 @@ describe("Map Integration Tests", () => {
       const center1 = [22.6924, 88.4653]; // Array format
       const center2 = { lat: 22.6924, lng: 88.4653 }; // Object format
       
-      const lat1 = Array.isArray(center1) ? center1[0] : center1.lat;
+      const lat1 = Array.isArray(center1) ? center1[0] : (center1 as any).lat;
       const lat2 = Array.isArray(center2) ? center2[0] : center2.lat;
       
       expect(lat1).toBe(22.6924);

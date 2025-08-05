@@ -10,13 +10,15 @@ import { Button } from "./ui/button";
 interface ReportModalProps {
   isOpen: boolean;
   onClose: () => void;
-  factoryName: string;
+  factoryId?: number | null;
+  factoryName?: string;
 }
 
 export default function ReportModal({
   isOpen,
   onClose,
-  factoryName,
+  factoryId,
+  factoryName = `Factory ${factoryId}`,
 }: ReportModalProps) {
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>

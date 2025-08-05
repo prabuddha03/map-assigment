@@ -74,7 +74,7 @@ const createMockStore = (initialState = {}) => {
         selectedPolygon: null,
         hiddenPolygons: [],
         isDrawing: false,
-        ...initialState.polygon,
+        ...(initialState as any)?.polygon,
       },
     },
   });

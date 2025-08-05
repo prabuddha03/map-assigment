@@ -103,10 +103,11 @@ export const getPolygonColor = (polygon: Polygon, polygonData: PolygonWeatherDat
   }
 
   for (const rule of polygon.colorRules) {
-    if (rule.operator === '>' && value > rule.value) {
+    const numValue = Number(value);
+    if (rule.operator === '>' && numValue > rule.value) {
       return rule.color;
     }
-    if (rule.operator === '<' && value < rule.value) {
+    if (rule.operator === '<' && numValue < rule.value) {
       return rule.color;
     }
   }

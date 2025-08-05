@@ -32,7 +32,7 @@ const MockPolygonList = ({ polygons = [] }: any) => {
           <div>Draw your first polygon to get started</div>
         </div>
       ) : (
-        mockPolygons.map((polygon) => (
+        mockPolygons.map((polygon: any) => (
           <div key={polygon.id} data-testid="polygon-item">
             <div>{polygon.name}</div>
             <input
@@ -170,13 +170,13 @@ const createMockStore = (initialState = {}) => {
         selectedPolygon: null,
         hiddenPolygons: [],
         isDrawing: false,
-        ...initialState.polygon,
+        ...(initialState as any)?.polygon,
       },
       timeline: {
         timeRange: [0, 24],
         dataType: 'temperature_2m',
         polygonData: {},
-        ...initialState.timeline,
+        ...(initialState as any)?.timeline,
       },
     },
   });

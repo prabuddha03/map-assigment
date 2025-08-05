@@ -78,13 +78,13 @@ const createMockStore = (initialState = {}) => {
         savedPolygons: [],
         selectedPolygon: null,
         hiddenPolygons: [],
-        ...initialState.polygon,
+        ...(initialState as any)?.polygon,
       },
       timeline: {
         timeRange: [0, 24],
         dataType: 'temperature_2m',
         polygonData: {},
-        ...initialState.timeline,
+        ...(initialState as any)?.timeline,
       },
     },
   });
@@ -187,14 +187,14 @@ describe("MapPage Component", () => {
     renderWithProvider();
     
     const pageContainer = screen.getByTestId("timeline-slider").parentElement;
-    expect(pageContainer).toHaveClass("flex", "flex-col", "h-screen", "w-full");
+    expect(pageContainer).toHaveClass("flex flex-col h-screen w-full");
   });
 
   it("handles responsive layout correctly", () => {
     renderWithProvider();
     
     const mapContainer = screen.getByTestId("map").parentElement;
-    expect(mapContainer).toHaveClass("flex-1", "relative", "h-full", "w-full");
+    expect(mapContainer).toHaveClass("flex-1 relative h-full w-full");
   });
 
   it("integrates with Redux state correctly", () => {

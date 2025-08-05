@@ -70,7 +70,7 @@ describe("MobileMapControls Component", () => {
     render(<MobileMapControls {...defaultProps} />);
     
     const container = screen.getByRole("button").parentElement;
-    expect(container).toHaveClass("md:hidden", "absolute", "top-4", "right-4");
+    expect(container).toHaveClass("md:hidden absolute top-4 right-4");
   });
 
   it("uses correct button variant and size", () => {
@@ -79,7 +79,7 @@ describe("MobileMapControls Component", () => {
     const button = screen.getByRole("button");
     expect(button).toHaveAttribute("data-size", "sm");
     // Button styling is applied via className, not data attributes
-    expect(button).toHaveClass("bg-white", "border", "border-gray-300");
+    expect(button).toHaveClass("bg-white border border-gray-300");
   });
 
   it("shows only on mobile screens", () => {

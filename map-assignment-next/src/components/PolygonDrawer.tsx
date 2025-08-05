@@ -65,7 +65,7 @@ const PolygonDrawer: React.FC = () => {
           toast.success('Polygon created successfully!');
         }
 
-        // Remove the drawing layer from the map since we are now managing it in Redux
+
         layer.remove();
 
         dispatch(setDrawing(false));

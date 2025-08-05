@@ -140,7 +140,7 @@ const createMockStore = (initialState = {}) => {
         savedPolygons: [],
         selectedPolygon: null,
         hiddenPolygons: [],
-        ...initialState.polygon,
+        ...(initialState as any)?.polygon,
       },
     },
   });

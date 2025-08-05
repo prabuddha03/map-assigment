@@ -11,9 +11,9 @@ const CV_PDF_URL = "https://pub-59b3362b9c604d388203b247ffff7743.r2.dev/Prabuddh
 export default function HomePage() {
   return (
     <div className="min-h-screen bg-white">
-      {/* Hero Section */}
+
       <section className="relative py-20 px-4 text-center bg-gradient-to-br from-gray-50 to-blue-50 overflow-hidden">
-        {/* Background Pattern */}
+
         <div className="absolute inset-0 opacity-10">
           <div className="absolute inset-0" style={{
             backgroundImage: `radial-gradient(circle at 1px 1px, rgba(59, 130, 246, 0.3) 1px, transparent 0)`,
