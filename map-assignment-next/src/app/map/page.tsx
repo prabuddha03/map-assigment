@@ -1,6 +1,6 @@
 "use client";
 
-import React, { Suspense, useEffect } from "react";
+import React, { Suspense, useEffect, useState } from "react";
 import dynamic from "next/dynamic";
 import { useDispatch, useSelector } from 'react-redux';
 import { loadSavedPolygons } from '@/store/slices/polygonSlice';
@@ -22,6 +22,7 @@ export default function MapPage() {
   const dispatch: AppDispatch = useDispatch();
   const { dataType, timeRange } = useSelector((state: RootState) => state.timeline);
   const { polygons } = useSelector((state: RootState) => state.polygon);
+  const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState(false);
 
   useEffect(() => {
     dispatch(loadSavedPolygons());
@@ -53,14 +54,20 @@ export default function MapPage() {
         <TimelineSlider />
       </div>
       
-      <div className="flex flex-1 overflow-hidden">
-        <div className="flex-1 relative">
-          <Suspense fallback={<MapSkeleton />}>
-            <Map className="absolute inset-0" />
-          </Suspense>
+      <div className="flex flex-1 overflow-hidden relative md:flex-row flex-col">
+        <div className="flex-1 relative h-[60vh] md:h-full w-full">
+          <Map 
+            className="h-full w-full" 
+            onOpenMobileSidebar={() => setIsMobileSidebarOpen(true)}
+            isSidebarOpen={isMobileSidebarOpen}
+          />
         </div>
         
-        <MapSidebar />
+        <MapSidebar 
+          isMobileOpen={isMobileSidebarOpen}
+          onMobileClose={() => setIsMobileSidebarOpen(false)}
+          className="md:w-96 w-full h-full"
+        />
       </div>
     </div>
   );

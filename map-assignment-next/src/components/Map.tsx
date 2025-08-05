@@ -9,6 +9,7 @@ import "leaflet-defaulticon-compatibility";
 import PolygonDrawer from "./PolygonDrawer";
 import DrawingControls from "./DrawingControls";
 import PolygonLegend from "./PolygonLegend";
+import MobileMapControls from "./MobileMapControls";
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '@/store/store';
 import { selectPolygon, updatePolygon } from '@/store/slices/polygonSlice';
@@ -17,9 +18,15 @@ import { Polygon as PolygonType } from '@/types/polygon';
 
 interface MapProps {
   className?: string;
+  onOpenMobileSidebar?: () => void;
+  isSidebarOpen?: boolean;
 }
 
-const Map: React.FC<MapProps> = ({ className = "" }) => {
+const Map: React.FC<MapProps> = ({ 
+  className = "", 
+  onOpenMobileSidebar = () => {},
+  isSidebarOpen = false
+}) => {
   const dispatch = useDispatch();
   const { polygons, selectedPolygon, hiddenPolygons } = useSelector((state: RootState) => state.polygon);
   const { polygonData, timeRange, dataType } = useSelector((state: RootState) => state.timeline);
@@ -30,48 +37,44 @@ const Map: React.FC<MapProps> = ({ className = "" }) => {
     if (!weatherData || !weatherData.hourly) {
       return 'Loading...';
     }
-    
-    // Use the current dataType selected in the timeline
+
     const dataArray = weatherData.hourly[dataType];
-    
+
     if (!dataArray || !Array.isArray(dataArray) || dataArray.length === 0) {
       return 'No source';
     }
-    
-    // Ensure timeIndex is within bounds
-    const safeTimeIndex = Math.min(Math.max(0, timeIndex), dataArray.length - 1);
-    let value = dataArray[safeTimeIndex];
+
+    if (dataArray.some(v => typeof v === 'string')) {
+      return 'Invalid data type';
+    }
+    const numericDataArray = dataArray as (number | null)[];
+
+    const safeTimeIndex = Math.min(Math.max(0, timeIndex), numericDataArray.length - 1);
+    let value: number | null | undefined = numericDataArray[safeTimeIndex];
     let isAveraged = false;
-    
-    // If no data at current time, try to get a fallback average
+
     if (value === null || typeof value === 'undefined') {
-      // Strategy 1: Look for nearby valid data points (±12 hours)
       const searchRadius = 12;
-      const validValues = [];
-      
+      const validValues: number[] = [];
+
       for (let offset = 0; offset <= searchRadius; offset++) {
-        // Check both directions from current time
         const indices = offset === 0 ? [safeTimeIndex] : [safeTimeIndex - offset, safeTimeIndex + offset];
-        
         for (const idx of indices) {
-          if (idx >= 0 && idx < dataArray.length) {
-            const val = dataArray[idx];
+          if (idx >= 0 && idx < numericDataArray.length) {
+            const val = numericDataArray[idx];
             if (val !== null && typeof val !== 'undefined') {
               validValues.push(val);
             }
           }
         }
-        
-        // If we found some values, calculate average and break
         if (validValues.length >= 3) break;
       }
-      
+
       if (validValues.length > 0) {
         value = validValues.reduce((sum, val) => sum + val, 0) / validValues.length;
         isAveraged = true;
       } else {
-        // Strategy 2: Get overall average from the entire dataset
-        const allValidValues = dataArray.filter(val => val !== null && typeof val !== 'undefined');
+        const allValidValues = numericDataArray.filter((v): v is number => v !== null && typeof v !== 'undefined');
         if (allValidValues.length > 0) {
           value = allValidValues.reduce((sum, val) => sum + val, 0) / allValidValues.length;
           isAveraged = true;
@@ -80,8 +83,11 @@ const Map: React.FC<MapProps> = ({ className = "" }) => {
         }
       }
     }
-    
-    // Format based on data type
+
+    if (value === null || typeof value === 'undefined') {
+      return 'No data';
+    }
+
     const suffix = isAveraged ? ' (avg)' : '';
     switch (dataType) {
       case 'temperature_2m':
@@ -129,7 +135,7 @@ const Map: React.FC<MapProps> = ({ className = "" }) => {
   };
 
   return (
-    <div className={`h-full w-full relative ${className}`}>
+    <div className={`h-full w-full relative transition-opacity duration-300 ${isSidebarOpen ? 'opacity-50 z-0' : 'opacity-100 z-10'} ${className}`}>
       {/* CSS for smooth transitions */}
       <style jsx global>{`
         .polygon-transition {
@@ -149,6 +155,7 @@ const Map: React.FC<MapProps> = ({ className = "" }) => {
         }
       `}</style>
       
+      <MobileMapControls onOpenSidebar={onOpenMobileSidebar} />
       <DrawingControls />
       
       <MapContainer

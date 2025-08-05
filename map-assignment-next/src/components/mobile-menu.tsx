@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import { Sheet, SheetContent, SheetTrigger, SheetTitle } from "@/components/ui/sheet";
 import { Menu, Package2 } from "lucide-react";
 import Link from "next/link";
 import Sidebar from "./sidebar";
@@ -16,6 +16,7 @@ export default function MobileMenu() {
           </Button>
         </SheetTrigger>
         <SheetContent side="left" className="flex flex-col p-0">
+          <SheetTitle className="sr-only">Navigation Menu</SheetTitle>
           <Sidebar />
         </SheetContent>
       </Sheet>
