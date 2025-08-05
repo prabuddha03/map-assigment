@@ -11,23 +11,23 @@ A modern, responsive web application built with **Next.js 15** and **TypeScript*
 
 ### Desktop Interface
 
-![Desktop Main View](map-assignment-next/desktop2.png)
+![Desktop Main View](/desktop2.webp)
 _Main map interface with polygon drawing, weather data visualization, and timeline controls_
 
-![Desktop Controls](map-assignment-next/desktopmain.png)
+![Desktop Controls](/desktopmain.webp)
 _Detailed view of map controls, polygon management, and color rule configuration_
 
 ### Mobile Responsive Design
 
-![Mobile Basic View](map-assignment-next/mobile-basic.png)
+![Mobile Basic View](/mobile-basic.png)
 _Mobile-optimized interface with touch-friendly controls_
 
-![Mobile Menu](map-assignment-next/mobile-menu.png)
+![Mobile Menu](/mobile-menu.png)
 _Mobile sidebar with polygon management and settings_
 
 ### Data Persistence
 
-![Local Storage](map-assignment-next/localstorage.png)
+![Local Storage](/localstorage.png)
 _Browser developer tools showing localStorage persistence of polygon data_
 
 ## ✨ Key Features
