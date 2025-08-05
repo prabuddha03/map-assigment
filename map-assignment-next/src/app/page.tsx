@@ -1,14 +1,25 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import Link from "next/link";
-import { ArrowRight, Github, ExternalLink, Code, MapPin, Zap, FileText } from "lucide-react";
+import { ArrowRight, Github, ExternalLink, Code, MapPin, Zap, FileText, Loader2 } from "lucide-react";
 
 // Replace this with your actual CDN image link
 const PROFILE_IMAGE_URL = "https://pub-59b3362b9c604d388203b247ffff7743.r2.dev/Prabuddha_chowdhury_image%20copy.jpeg";
 const CV_PDF_URL = "https://pub-59b3362b9c604d388203b247ffff7743.r2.dev/Prabuddha_Chowdhury.pdf";
 
 export default function HomePage() {
+  const [loadingDashboard, setLoadingDashboard] = useState(false);
+  const [loadingMap, setLoadingMap] = useState(false);
+
+  const handleDashboardClick = () => {
+    setLoadingDashboard(true);
+  };
+
+  const handleMapClick = () => {
+    setLoadingMap(true);
+  };
+
   return (
     <div className="min-h-screen bg-white">
 
@@ -24,7 +35,7 @@ export default function HomePage() {
         <div className="relative max-w-5xl mx-auto">
           <div className="inline-flex items-center gap-2 px-4 py-2 bg-blue-100 border border-blue-200 rounded-full text-blue-800 text-sm mb-6">
             <Code className="h-4 w-4" />
-            Hiring Assignment Case Study
+            Hiring Assignment Story
           </div>
           
           <h1 className="text-4xl md:text-7xl font-bold text-gray-900 mb-8 leading-tight">
@@ -41,18 +52,38 @@ export default function HomePage() {
           <div className="flex flex-col sm:flex-row gap-6 justify-center">
             <Link
               href="/dashboard"
-              className="group inline-flex items-center justify-center gap-2 px-8 py-4 bg-white text-gray-700 border-2 border-gray-300 rounded-xl hover:border-gray-400 hover:shadow-lg transition-all duration-300 text-lg font-medium"
+              onClick={handleDashboardClick}
+              className="group inline-flex items-center justify-center gap-2 px-8 py-4 bg-white text-gray-700 border-2 border-gray-300 rounded-xl hover:border-gray-400 hover:shadow-lg transition-all duration-300 text-lg font-medium disabled:opacity-50"
             >
-              The Misunderstood Project
-              <ArrowRight className="h-5 w-5 group-hover:translate-x-1 transition-transform" />
+              {loadingDashboard ? (
+                <>
+                  <Loader2 className="h-5 w-5 animate-spin" />
+                  Loading...
+                </>
+              ) : (
+                <>
+                  The Misunderstood Project
+                  <ArrowRight className="h-5 w-5 group-hover:translate-x-1 transition-transform" />
+                </>
+              )}
             </Link>
             <Link
               href="/map"
-              className="group inline-flex items-center justify-center gap-2 px-8 py-4 bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-xl hover:from-blue-700 hover:to-indigo-700 transition-all duration-300 text-lg font-semibold shadow-lg hover:shadow-xl transform hover:-translate-y-1"
+              onClick={handleMapClick}
+              className="group inline-flex items-center justify-center gap-2 px-8 py-4 bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-xl hover:from-blue-700 hover:to-indigo-700 transition-all duration-300 text-lg font-semibold shadow-lg hover:shadow-xl transform hover:-translate-y-1 disabled:opacity-50"
             >
-              <MapPin className="h-5 w-5" />
-              View The Actual Assignment
-              <span className="ml-2 px-2 py-1 bg-white/20 rounded-full text-xs">Primary</span>
+              {loadingMap ? (
+                <>
+                  <Loader2 className="h-5 w-5 animate-spin" />
+                  Loading Map...
+                </>
+              ) : (
+                <>
+                  <MapPin className="h-5 w-5" />
+                  View The Actual Assignment
+                  <span className="ml-2 px-2 py-1 bg-white/20 rounded-full text-xs">Primary</span>
+                </>
+              )}
             </Link>
           </div>
         </div>
@@ -445,19 +476,39 @@ export default function HomePage() {
           <div className="flex flex-col sm:flex-row gap-6 justify-center">
             <Link
               href="/dashboard"
-              className="group inline-flex items-center justify-center gap-2 px-6 py-3 bg-white border-2 border-gray-300 text-gray-700 rounded-xl hover:border-gray-400 hover:shadow-lg transition-all duration-300 font-medium"
+              onClick={handleDashboardClick}
+              className="group inline-flex items-center justify-center gap-2 px-6 py-3 bg-white border-2 border-gray-300 text-gray-700 rounded-xl hover:border-gray-400 hover:shadow-lg transition-all duration-300 font-medium disabled:opacity-50"
             >
-              <Code className="h-5 w-5" />
-              Explore Dashboard
-              <ArrowRight className="h-4 w-4 group-hover:translate-x-1 transition-transform" />
+              {loadingDashboard ? (
+                <>
+                  <Loader2 className="h-4 w-4 animate-spin" />
+                  Loading...
+                </>
+              ) : (
+                <>
+                  <Code className="h-5 w-5" />
+                  Explore Dashboard
+                  <ArrowRight className="h-4 w-4 group-hover:translate-x-1 transition-transform" />
+                </>
+              )}
             </Link>
             <Link
               href="/map"
-              className="group inline-flex items-center justify-center gap-2 px-8 py-4 bg-gradient-to-r from-indigo-600 to-purple-600 text-white rounded-xl hover:from-indigo-700 hover:to-purple-700 transition-all duration-300 font-semibold shadow-xl hover:shadow-2xl transform hover:-translate-y-1"
+              onClick={handleMapClick}
+              className="group inline-flex items-center justify-center gap-2 px-8 py-4 bg-gradient-to-r from-indigo-600 to-purple-600 text-white rounded-xl hover:from-indigo-700 hover:to-purple-700 transition-all duration-300 font-semibold shadow-xl hover:shadow-2xl transform hover:-translate-y-1 disabled:opacity-50"
             >
-              <MapPin className="h-5 w-5" />
-              Explore Map Assignment
-              <span className="ml-2 px-2 py-1 bg-white/20 rounded-full text-xs">Main Project</span>
+              {loadingMap ? (
+                <>
+                  <Loader2 className="h-5 w-5 animate-spin" />
+                  Loading...
+                </>
+              ) : (
+                <>
+                  <MapPin className="h-5 w-5" />
+                  Explore Map Assignment
+                  <span className="ml-2 px-2 py-1 bg-white/20 rounded-full text-xs">Main Project</span>
+                </>
+              )}
             </Link>
           </div>
         </div>

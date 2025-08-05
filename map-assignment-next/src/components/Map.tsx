@@ -192,7 +192,7 @@ const Map: React.FC<MapProps> = ({
             return null;
           }
 
-          const color = getPolygonColor(polygon, polygonData, dataType, timeRange[0]);
+          const color = getPolygonColor(polygon, polygonData, dataType, timeRange[1]);
 
           const positions = polygon.geoJson.coordinates[0].map(
             ([lng, lat]) => [lat, lng] as LatLngExpression
