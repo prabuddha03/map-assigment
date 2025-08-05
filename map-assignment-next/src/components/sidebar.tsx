@@ -48,7 +48,7 @@ export default function Sidebar() {
             </Link>
             <Link
               href="/map"
-              className="flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary hover:bg-muted"
+              className="flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary hover:bg-muted border-2 border-blue-300"
             >
               <Map className="h-4 w-4" />
               Map Project

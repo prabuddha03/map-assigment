@@ -2,10 +2,11 @@
 
 import React from "react";
 import Link from "next/link";
-import { ArrowRight, Github, ExternalLink, Code, MapPin, Zap } from "lucide-react";
+import { ArrowRight, Github, ExternalLink, Code, MapPin, Zap, FileText } from "lucide-react";
 
 // Replace this with your actual CDN image link
-const PROFILE_IMAGE_URL = "https://via.placeholder.com/200x200/4F46E5/FFFFFF?text=PC";
+const PROFILE_IMAGE_URL = "https://pub-59b3362b9c604d388203b247ffff7743.r2.dev/Prabuddha_chowdhury_image%20copy.jpeg";
+const CV_PDF_URL = "https://pub-59b3362b9c604d388203b247ffff7743.r2.dev/Prabuddha_Chowdhury.pdf";
 
 export default function HomePage() {
   return (
@@ -28,7 +29,7 @@ export default function HomePage() {
           
           <h1 className="text-4xl md:text-7xl font-bold text-gray-900 mb-8 leading-tight">
             My Journey Through the
-            <span className="block text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600">
+            <span className="block text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600 pb-4">
               Assignment
             </span>
           </h1>
@@ -86,14 +87,14 @@ export default function HomePage() {
               </h2>
               
               <p className="text-lg md:text-xl text-gray-600 leading-relaxed mb-6">
-                A Full Stack Developer who enjoys backend-heavy problem-solving and building scalable systems that matter.
+                A Full Stack Developer who enjoys backend-heavy problem-solving, loves debugging complex issues, and builds scalable systems that matter.
               </p>
               
               <p className="text-lg text-gray-600 leading-relaxed mb-8">
-                I've solved 300+ LeetCode problems, work extensively with scalable systems, and believe in writing clean, maintainable, and well-documented code that stands the test of time.
+                With 11+ months of internship experience, I've solved 300+ LeetCode problems, work extensively with scalable systems, and believe in writing clean, maintainable, and well-documented code that stands the test of time.
               </p>
               
-              <div className="flex flex-wrap gap-3 justify-center lg:justify-start">
+              <div className="flex flex-wrap gap-3 justify-center lg:justify-start mb-8">
                 {[
                   { name: "React", color: "from-blue-500 to-cyan-500" },
                   { name: "Node.js", color: "from-green-500 to-emerald-500" },
@@ -110,6 +111,19 @@ export default function HomePage() {
                   </span>
                 ))}
               </div>
+              
+              <div className="flex justify-center lg:justify-start">
+                <a
+                  href={CV_PDF_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="group inline-flex items-center justify-center gap-2 px-6 py-3 bg-gradient-to-r from-gray-900 to-gray-700 text-white rounded-xl hover:from-gray-800 hover:to-gray-600 transition-all duration-300 font-semibold shadow-lg hover:shadow-xl transform hover:-translate-y-1"
+                >
+                  <FileText className="h-5 w-5" />
+                  View CV
+                  <ExternalLink className="h-4 w-4 group-hover:translate-x-1 transition-transform" />
+                </a>
+              </div>
             </div>
           </div>
         </div>
@@ -125,9 +139,9 @@ export default function HomePage() {
             <div className="w-24 h-1 bg-gradient-to-r from-blue-500 to-purple-500 mx-auto"></div>
           </div>
           
-          <div className="grid lg:grid-cols-2 gap-12 items-center">
-            <div className="space-y-6">
-              <div className="bg-gradient-to-br from-blue-50 to-indigo-100 p-8 rounded-2xl border border-blue-200">
+          <div className="grid lg:grid-cols-2 gap-12 items-stretch">
+            <div className="space-y-6 flex flex-col">
+              <div className="bg-gradient-to-br from-blue-50 to-indigo-100 p-8 rounded-2xl border border-blue-200 flex-1">
                 <h3 className="text-xl font-semibold text-gray-900 mb-4 flex items-center gap-2">
                   <div className="w-3 h-3 bg-blue-500 rounded-full"></div>
                   Initial Approach
@@ -137,7 +151,7 @@ export default function HomePage() {
                 </p>
               </div>
               
-              <div className="bg-gradient-to-br from-purple-50 to-pink-100 p-8 rounded-2xl border border-purple-200">
+              <div className="bg-gradient-to-br from-purple-50 to-pink-100 p-8 rounded-2xl border border-purple-200 flex-1">
                 <h3 className="text-xl font-semibold text-gray-900 mb-4 flex items-center gap-2">
                   <div className="w-3 h-3 bg-purple-500 rounded-full"></div>
                   Course Correction
@@ -148,11 +162,11 @@ export default function HomePage() {
               </div>
             </div>
             
-            <div className="bg-gradient-to-br from-gray-900 to-gray-800 p-8 rounded-2xl text-white shadow-2xl">
+            <div className="bg-gradient-to-br from-gray-900 to-gray-800 p-8 rounded-2xl text-white shadow-2xl flex flex-col">
               <h3 className="text-2xl font-bold mb-6 text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-400">
                 Why Keep Both?
               </h3>
-              <p className="text-gray-300 leading-relaxed mb-8">
+              <p className="text-gray-300 leading-relaxed mb-8 flex-1">
                 I'm showcasing both versions to demonstrate my complete thought process and technical range—from comprehensive dashboard solutions to focused, requirement-specific implementations.
               </p>
               
