@@ -19,15 +19,15 @@ _Detailed view of map controls, polygon management, and color rule configuration
 
 ### Mobile Responsive Design
 
-![Mobile Basic View](/mobile-basic.png)
+![Mobile Basic View](/mobile-basic.webp)
 _Mobile-optimized interface with touch-friendly controls_
 
-![Mobile Menu](/mobile-menu.png)
+![Mobile Menu](/mobile-menu.webp)
 _Mobile sidebar with polygon management and settings_
 
 ### Data Persistence
 
-![Local Storage](/localstorage.png)
+![Local Storage](/localstorage.webp)
 _Browser developer tools showing localStorage persistence of polygon data_
 
 ## ✨ Key Features
