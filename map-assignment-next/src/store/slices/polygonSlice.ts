@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { Polygon } from '@/types/polygon';
+import { Polygon, ColorRule } from '@/types/polygon';
 
 export interface PolygonState {
   polygons: Polygon[];
@@ -60,12 +60,13 @@ const polygonSlice = createSlice({
     savedPolygons: loadSavedPolygonsFromStorage(),
   },
   reducers: {
-    addPolygon: (state, action: PayloadAction<Omit<Polygon, 'id' | 'createdAt' | 'updatedAt'>>) => {
+    addPolygon: (state, action: PayloadAction<Omit<Polygon, 'id' | 'createdAt' | 'updatedAt' | 'colorRules'>>) => {
       const newPolygon: Polygon = {
         ...action.payload,
         id: `polygon_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
         createdAt: new Date().toISOString(),
         updatedAt: new Date().toISOString(),
+        colorRules: [], // Initialize with empty rules
       };
       state.polygons.push(newPolygon);
       state.isDrawing = false;
@@ -94,24 +95,52 @@ const polygonSlice = createSlice({
     updatePolygon: (state, action: PayloadAction<{ id: string; updates: Partial<Polygon> }>) => {
       const { id, updates } = action.payload;
       
-      // Update in current polygons
+      const update = (polygon: Polygon) => ({
+        ...polygon,
+        ...updates,
+        updatedAt: new Date().toISOString(),
+      });
+
       const polygonIndex = state.polygons.findIndex(p => p.id === id);
       if (polygonIndex !== -1) {
-        state.polygons[polygonIndex] = {
-          ...state.polygons[polygonIndex],
-          ...updates,
-          updatedAt: new Date().toISOString(),
-        };
+        state.polygons[polygonIndex] = update(state.polygons[polygonIndex]);
       }
 
-      // Update in saved polygons
       const savedIndex = state.savedPolygons.findIndex(p => p.id === id);
       if (savedIndex !== -1) {
-        state.savedPolygons[savedIndex] = {
-          ...state.savedPolygons[savedIndex],
-          ...updates,
-          updatedAt: new Date().toISOString(),
-        };
+        state.savedPolygons[savedIndex] = update(state.savedPolygons[savedIndex]);
+        savePolygonsToStorage(state.savedPolygons);
+      }
+    },
+
+    addColorRule: (state, action: PayloadAction<{ polygonId: string; rule: Omit<ColorRule, 'id'> }>) => {
+      const { polygonId, rule } = action.payload;
+      const newRule: ColorRule = { ...rule, id: `rule_${Date.now()}` };
+      
+      const polygon = state.polygons.find(p => p.id === polygonId);
+      if (polygon) {
+        polygon.colorRules.push(newRule);
+      }
+      const savedPolygon = state.savedPolygons.find(p => p.id === polygonId);
+      if (savedPolygon) {
+        savedPolygon.colorRules.push(newRule);
+        savePolygonsToStorage(state.savedPolygons);
+      }
+    },
+
+    removeColorRule: (state, action: PayloadAction<{ polygonId: string; ruleId: string }>) => {
+      const { polygonId, ruleId } = action.payload;
+
+      const filterRules = (polygon: Polygon) => {
+        polygon.colorRules = polygon.colorRules.filter(r => r.id !== ruleId);
+      };
+
+      const polygon = state.polygons.find(p => p.id === polygonId);
+      if (polygon) filterRules(polygon);
+      
+      const savedPolygon = state.savedPolygons.find(p => p.id === polygonId);
+      if (savedPolygon) {
+        filterRules(savedPolygon);
         savePolygonsToStorage(state.savedPolygons);
       }
     },
@@ -192,6 +221,8 @@ export const {
   saveAllPolygons,
   loadSavedPolygons,
   clearUnsavedPolygons,
+  addColorRule,
+  removeColorRule,
 } = polygonSlice.actions;
 
 export default polygonSlice.reducer;

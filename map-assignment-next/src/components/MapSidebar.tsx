@@ -21,7 +21,7 @@ interface MapSidebarProps {
 
 const MapSidebar: React.FC<MapSidebarProps> = ({ className = "" }) => {
   return (
-    <div className={`w-80 h-full bg-background border-l border-border flex flex-col ${className}`}>
+    <div className={`w-96 h-full bg-background border-l border-border flex flex-col ${className}`}>
       {/* Header */}
       <div className="p-4 border-b border-border">
         <div className="flex items-center justify-between">

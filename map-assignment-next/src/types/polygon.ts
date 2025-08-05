@@ -1,9 +1,17 @@
+export interface ColorRule {
+  id: string;
+  operator: '<' | '>';
+  value: number;
+  color: string;
+}
+
 export interface Polygon {
   id: string;
   name: string;
   geoJson: GeoJSON.Polygon;
   color: string;
-  dataSource?: string;
+  dataSource: string; // Now mandatory
+  colorRules: ColorRule[];
   createdAt: string;
   updatedAt: string;
 }

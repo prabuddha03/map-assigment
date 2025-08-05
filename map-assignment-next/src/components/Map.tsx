@@ -11,24 +11,22 @@ import DrawingControls from "./DrawingControls";
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '@/store/store';
 import { selectPolygon } from '@/store/slices/polygonSlice';
+import { getPolygonColor } from '@/store/slices/timelineSlice';
 
 interface MapProps {
   className?: string;
 }
 
 const Map: React.FC<MapProps> = ({ className = "" }) => {
-  // Madhyamgram coordinates
-  const center: LatLngExpression = [22.6924, 88.4653];
-  
-  // Zoom level 14 approximates about 2 sq. km resolution
-  const zoomLevel = 14;
-
   const dispatch = useDispatch();
   const { polygons, selectedPolygon, hiddenPolygons } = useSelector((state: RootState) => state.polygon);
+  const { data: weatherData, timeRange } = useSelector((state: RootState) => state.timeline);
+
+  const center: LatLngExpression = [22.6924, 88.4653];
+  const zoomLevel = 14;
 
   useEffect(() => {
-    // This effect ensures Leaflet is loaded properly on the client side
-    // The leaflet-defaulticon-compatibility package handles the icon fix
+    // This effect can be used for any initial map setup
   }, []);
 
   const handlePolygonClick = (polygonId: string) => {
@@ -43,38 +41,22 @@ const Map: React.FC<MapProps> = ({ className = "" }) => {
         zoom={zoomLevel}
         scrollWheelZoom={false}
         className="h-full w-full rounded-lg"
-        zoomControl={true}
-        doubleClickZoom={false}
-        dragging={true}
       >
         <TileLayer
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
         
-        {/* Marker for Madhyamgram center */}
         <Marker position={center}>
-          <Popup>
-            <div className="text-center">
-              <h3 className="font-semibold">Madhyamgram</h3>
-              <p className="text-sm text-gray-600">
-                Lat: {center[0]}, Lng: {center[1]}
-              </p>
-            </div>
-          </Popup>
+          <Popup>Madhyamgram</Popup>
         </Marker>
 
-        {/* Render existing polygons */}
         {polygons.map((polygon) => {
-          // Don't render hidden polygons
-          if (hiddenPolygons.includes(polygon.id)) {
+          if (hiddenPolygons.includes(polygon.id) || !polygon.geoJson.coordinates?.[0]?.length) {
             return null;
           }
 
-          // Skip polygons with no coordinates
-          if (!polygon.geoJson.coordinates || !polygon.geoJson.coordinates[0] || polygon.geoJson.coordinates[0].length === 0) {
-            return null;
-          }
+          const color = getPolygonColor(polygon, weatherData, timeRange[0]);
 
           const positions = polygon.geoJson.coordinates[0].map(
             ([lng, lat]) => [lat, lng] as LatLngExpression
@@ -85,28 +67,21 @@ const Map: React.FC<MapProps> = ({ className = "" }) => {
               key={polygon.id}
               positions={positions}
               pathOptions={{
-                color: polygon.color,
+                color: color,
                 weight: 2,
-                fillOpacity: selectedPolygon === polygon.id ? 0.5 : 0.3,
+                fillOpacity: selectedPolygon === polygon.id ? 0.7 : 0.5,
               }}
               eventHandlers={{
                 click: () => handlePolygonClick(polygon.id),
               }}
             >
               <Popup>
-                <div className="text-center">
-                  <h3 className="font-semibold">{polygon.name}</h3>
-                  <p className="text-sm text-gray-600">ID: {polygon.id}</p>
-                  <p className="text-sm text-gray-600">
-                    Created: {new Date(polygon.createdAt).toLocaleDateString()}
-                  </p>
-                </div>
+                {polygon.name} - {color}
               </Popup>
             </Polygon>
           );
         })}
 
-        {/* Drawing functionality */}
         <PolygonDrawer />
       </MapContainer>
     </div>

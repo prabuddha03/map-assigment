@@ -1,6 +1,6 @@
 "use client";
 
-import React from 'react';
+import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '@/store/store';
 import { 
@@ -18,15 +18,23 @@ import {
   Eye,
   EyeOff,
   MapPin,
-  Save
+  Save,
+  ChevronDown,
+  ChevronUp
 } from 'lucide-react';
+import ColorRulesManager from './ColorRulesManager';
 
 const PolygonList: React.FC = () => {
   const dispatch = useDispatch();
   const { polygons, savedPolygons, selectedPolygon, hiddenPolygons } = useSelector((state: RootState) => state.polygon);
+  const [expandedPolygon, setExpandedPolygon] = useState<string | null>(null);
 
   const handleDelete = (id: string) => {
     dispatch(removePolygon(id));
+  };
+  
+  const handleToggleExpand = (id: string) => {
+    setExpandedPolygon(expandedPolygon === id ? null : id);
   };
 
   const handleSelect = (id: string) => {
@@ -144,11 +152,6 @@ const PolygonList: React.FC = () => {
                     </div>
                     
                     <div className="flex gap-1 flex-wrap">
-                      {polygon.dataSource && (
-                        <Badge variant="outline" className="text-xs">
-                          {polygon.dataSource}
-                        </Badge>
-                      )}
                       {isSaved && (
                         <Badge variant="default" className="text-xs bg-green-600">
                           saved
@@ -164,61 +167,66 @@ const PolygonList: React.FC = () => {
                 </div>
 
                 <div className="flex flex-col gap-1 ml-2">
-                  {/* Save Button */}
-                  {!isSaved && (
-                    <Button
-                      variant="ghost"
-                      size="sm"
-                      onClick={() => handleSavePolygon(polygon.id)}
-                      className="h-6 w-6 p-0 text-green-600 hover:text-green-800 hover:bg-green-50 dark:hover:bg-green-950/20"
-                      title="Save polygon"
-                    >
-                      <Save className="h-3 w-3" />
-                    </Button>
-                  )}
-
-                  {/* Visibility Toggle Button */}
                   <Button
                     variant="ghost"
                     size="sm"
-                    onClick={() => handleToggleVisibility(polygon.id)}
+                    onClick={() => handleToggleExpand(polygon.id)}
                     className="h-6 w-6 p-0"
-                    title={isHidden ? "Show polygon" : "Hide polygon"}
                   >
-                    {isHidden ? (
-                      <EyeOff className="h-3 w-3" />
-                    ) : (
-                      <Eye className="h-3 w-3" />
-                    )}
-                  </Button>
-
-                  {/* Select Button */}
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    onClick={() => handleSelect(polygon.id)}
-                    className={`h-6 w-6 p-0 ${
-                      isSelected 
-                        ? 'text-blue-600 hover:text-blue-800 hover:bg-blue-50 dark:hover:bg-blue-950/20' 
-                        : ''
-                    }`}
-                    title={isSelected ? "Deselect polygon" : "Select polygon"}
-                  >
-                    <MapPin className="h-3 w-3" />
-                  </Button>
-                  
-                  {/* Delete Button */}
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    onClick={() => handleDelete(polygon.id)}
-                    className="h-6 w-6 p-0 text-red-500 hover:text-red-700 hover:bg-red-50 dark:hover:bg-red-950/20"
-                    title="Delete polygon"
-                  >
-                    <Trash2 className="h-3 w-3" />
+                    {expandedPolygon === polygon.id ? <ChevronUp className="h-4 w-4" /> : <ChevronDown className="h-4 w-4" />}
                   </Button>
                 </div>
               </div>
+
+              {expandedPolygon === polygon.id && (
+                <div className="mt-2">
+                  <div className="flex items-start justify-between">
+                    <div className="flex-1 min-w-0">
+                      <ColorRulesManager polygon={polygon} />
+                    </div>
+                    <div className="flex flex-col gap-1 ml-2 mt-2">
+                      {!isSaved && (
+                        <Button
+                          variant="ghost"
+                          size="sm"
+                          onClick={() => handleSavePolygon(polygon.id)}
+                          className="h-6 w-6 p-0 text-green-600 hover:text-green-800"
+                          title="Save polygon"
+                        >
+                          <Save className="h-3 w-3" />
+                        </Button>
+                      )}
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        onClick={() => handleToggleVisibility(polygon.id)}
+                        className="h-6 w-6 p-0"
+                        title={isHidden ? "Show polygon" : "Hide polygon"}
+                      >
+                        {isHidden ? <EyeOff className="h-3 w-3" /> : <Eye className="h-3 w-3" />}
+                      </Button>
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        onClick={() => handleSelect(polygon.id)}
+                        className={`h-6 w-6 p-0 ${isSelected ? 'text-blue-600' : ''}`}
+                        title={isSelected ? "Deselect polygon" : "Select polygon"}
+                      >
+                        <MapPin className="h-3 w-3" />
+                      </Button>
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        onClick={() => handleDelete(polygon.id)}
+                        className="h-6 w-6 p-0 text-red-500 hover:text-red-700"
+                        title="Delete polygon"
+                      >
+                        <Trash2 className="h-3 w-3" />
+                      </Button>
+                    </div>
+                  </div>
+                </div>
+              )}
             </div>
           );
         })}

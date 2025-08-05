@@ -58,7 +58,7 @@ const PolygonDrawer: React.FC = () => {
             name: `Polygon ${Date.now()}`,
             geoJson,
             color,
-            dataSource: 'user_drawn'
+            dataSource: 'temperature_2m', // Default data source
           }));
         }
 
