@@ -40,13 +40,13 @@ const getDataTypeLabel = (dataType: string) => {
 };
 
 const PolygonLegend: React.FC<PolygonLegendProps> = ({ polygons, dataType }) => {
-  const { data: weatherData, timeRange } = useSelector((state: RootState) => state.timeline);
+  const { polygonData, timeRange } = useSelector((state: RootState) => state.timeline);
   const { hiddenPolygons } = useSelector((state: RootState) => state.polygon);
   
   // Show polygons that have color rules OR weather data, and are not hidden
   const visiblePolygons = polygons.filter(p => 
     !hiddenPolygons.includes(p.id) && 
-    (p.colorRules.length > 0 || (weatherData && weatherData.hourly[p.dataSource]))
+    (p.colorRules.length > 0 || (polygonData[p.id] && polygonData[p.id].hourly[dataType]))
   );
 
   if (visiblePolygons.length === 0) {
@@ -55,11 +55,12 @@ const PolygonLegend: React.FC<PolygonLegendProps> = ({ polygons, dataType }) => 
   
   // Function to get current weather value for display
   const getCurrentValue = (polygon: Polygon): string => {
+    const weatherData = polygonData[polygon.id];
     if (!weatherData || !weatherData.hourly) {
       return 'Loading...';
     }
     
-    // Use the current dataType selected in the timeline, not polygon.dataSource
+    // Use the current dataType selected in the timeline
     const dataArray = weatherData.hourly[dataType];
     
     if (!dataArray || !Array.isArray(dataArray) || dataArray.length === 0) {

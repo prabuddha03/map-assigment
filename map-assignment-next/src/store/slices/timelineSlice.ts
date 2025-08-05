@@ -4,15 +4,19 @@ import { ColorRule, Polygon } from '@/types/polygon';
 
 interface WeatherData {
   hourly: {
-    time: string[] ;
-    [key: string]: (number | null)[];
+    time: string[];
+    [key: string]: string[] | (number | null)[];
   };
+}
+
+interface PolygonWeatherData {
+  [polygonId: string]: WeatherData;
 }
 
 interface TimelineState {
   dataType: string;
   timeRange: [number, number];
-  data: WeatherData | null;
+  polygonData: PolygonWeatherData;
   loading: boolean;
   error: string | null;
 }
@@ -20,7 +24,7 @@ interface TimelineState {
 const initialState: TimelineState = {
   dataType: 'temperature_2m',
   timeRange: [0, 30 * 24],
-  data: null,
+  polygonData: {},
   loading: false,
   error: null,
 };
@@ -43,7 +47,7 @@ export const fetchWeatherData = createAsyncThunk(
         throw new Error('Failed to fetch weather data');
       }
       const data = await response.json();
-      return data;
+      return { polygonId: polygon.id, data };
     } catch (error: any) {
       return rejectWithValue(error.message);
     }
@@ -67,9 +71,9 @@ const timelineSlice = createSlice({
         state.loading = true;
         state.error = null;
       })
-      .addCase(fetchWeatherData.fulfilled, (state, action: PayloadAction<WeatherData>) => {
+      .addCase(fetchWeatherData.fulfilled, (state, action: PayloadAction<{ polygonId: string; data: WeatherData }>) => {
         state.loading = false;
-        state.data = action.payload;
+        state.polygonData[action.payload.polygonId] = action.payload.data;
       })
       .addCase(fetchWeatherData.rejected, (state, action) => {
         state.loading = false;
@@ -82,12 +86,17 @@ const timelineSlice = createSlice({
 export const { setDataType, setTimeRange } = timelineSlice.actions;
 
 // Utility function to determine polygon color based on rules and data
-export const getPolygonColor = (polygon: Polygon, data: WeatherData | null, timeIndex: number): string => {
-  if (!data || !polygon.colorRules.length) {
+export const getPolygonColor = (polygon: Polygon, polygonData: PolygonWeatherData, dataType: string, timeIndex: number): string => {
+  if (!polygon.colorRules.length) {
     return polygon.color; // Default color
   }
 
-  const value = data.hourly[polygon.dataSource]?.[timeIndex];
+  const data = polygonData[polygon.id];
+  if (!data) {
+    return polygon.color; // Default color if no data for this polygon
+  }
+
+  const value = data.hourly[dataType]?.[timeIndex];
 
   if (value === null || typeof value === 'undefined') {
     return '#808080'; // Gray for no data

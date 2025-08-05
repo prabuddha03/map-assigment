@@ -22,10 +22,11 @@ interface MapProps {
 const Map: React.FC<MapProps> = ({ className = "" }) => {
   const dispatch = useDispatch();
   const { polygons, selectedPolygon, hiddenPolygons } = useSelector((state: RootState) => state.polygon);
-  const { data: weatherData, timeRange, dataType } = useSelector((state: RootState) => state.timeline);
+  const { polygonData, timeRange, dataType } = useSelector((state: RootState) => state.timeline);
   
   // Function to get weather value for tooltip
   const getWeatherValue = (polygon: PolygonType, timeIndex: number): string => {
+    const weatherData = polygonData[polygon.id];
     if (!weatherData || !weatherData.hourly) {
       return 'Loading...';
     }
@@ -170,7 +171,7 @@ const Map: React.FC<MapProps> = ({ className = "" }) => {
             return null;
           }
 
-          const color = getPolygonColor(polygon, weatherData, timeRange[0]);
+          const color = getPolygonColor(polygon, polygonData, dataType, timeRange[0]);
 
           const positions = polygon.geoJson.coordinates[0].map(
             ([lng, lat]) => [lat, lng] as LatLngExpression
