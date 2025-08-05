@@ -13,6 +13,8 @@ type EditableMap = L.Map & {
   editTools?: any;
 };
 
+import toast from 'react-hot-toast';
+
 const PolygonDrawer: React.FC = () => {
   const map = useMap();
   const dispatch = useDispatch();
@@ -60,6 +62,7 @@ const PolygonDrawer: React.FC = () => {
             color,
             dataSource: 'temperature_2m', // Default data source
           }));
+          toast.success('Polygon created successfully!');
         }
 
         // Remove the drawing layer from the map since we are now managing it in Redux

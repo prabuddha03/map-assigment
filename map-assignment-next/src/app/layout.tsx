@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Montserrat, Poppins } from "next/font/google";
 import { ReduxProvider } from "@/providers/redux-provider";
+import { Toaster } from 'react-hot-toast';
 import "./globals.css";
 
 const fontSans = Montserrat({
@@ -30,6 +31,7 @@ export default function RootLayout({
         className={`font-sans ${fontSans.variable} ${fontHeading.variable}`}
       >
         <ReduxProvider>
+          <Toaster position="top-center" reverseOrder={false} />
           {children}
         </ReduxProvider>
       </body>

@@ -22,6 +22,8 @@ export default function MapPage() {
   const dispatch: AppDispatch = useDispatch();
   const { dataType, timeRange } = useSelector((state: RootState) => state.timeline);
   const { polygons } = useSelector((state: RootState) => state.polygon);
+  const [center, setCenter] = useState<LatLngExpression>([22.6924, 88.4653]);
+  const [zoomLevel, setZoomLevel] = useState(16.5);
   const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState(false);
 
   useEffect(() => {
@@ -60,6 +62,8 @@ export default function MapPage() {
             className="h-full w-full" 
             onOpenMobileSidebar={() => setIsMobileSidebarOpen(true)}
             isSidebarOpen={isMobileSidebarOpen}
+            onZoomChange={setZoomLevel}
+            onCenterChange={setCenter}
           />
         </div>
         
@@ -67,6 +71,8 @@ export default function MapPage() {
           isMobileOpen={isMobileSidebarOpen}
           onMobileClose={() => setIsMobileSidebarOpen(false)}
           className="md:w-96 w-full h-full"
+          zoomLevel={zoomLevel}
+          center={center}
         />
       </div>
     </div>

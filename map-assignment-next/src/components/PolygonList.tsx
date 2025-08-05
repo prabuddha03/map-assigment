@@ -14,6 +14,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Input } from '@/components/ui/input';
+import toast from 'react-hot-toast';
 import { 
   Trash2, 
   Hexagon as PolygonIcon, 
@@ -35,6 +36,7 @@ const PolygonList: React.FC = () => {
 
   const handleDelete = (id: string) => {
     dispatch(removePolygon(id));
+    toast.success('Polygon deleted.');
   };
   
   const handleToggleExpand = (id: string) => {
@@ -52,6 +54,7 @@ const PolygonList: React.FC = () => {
 
   const handleSavePolygon = (id: string) => {
     dispatch(savePolygon(id));
+    toast.success('Polygon saved successfully!');
   };
 
   const handleStartEditName = (id: string, currentName: string) => {

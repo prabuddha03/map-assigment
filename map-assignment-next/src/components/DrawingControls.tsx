@@ -3,7 +3,13 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '@/store/store';
-import { setDrawing, saveAllPolygons, clearUnsavedPolygons, clearAllPolygons } from '@/store/slices/polygonSlice';
+import toast from "react-hot-toast";
+import { 
+  setDrawing, 
+  saveAllPolygons, 
+  clearUnsavedPolygons, 
+  clearAllPolygons 
+} from '@/store/slices/polygonSlice';
 import { Button } from '@/components/ui/button';
 import { Hexagon, Save, Trash2 } from 'lucide-react';
 
@@ -25,6 +31,7 @@ const DrawingControls: React.FC<DrawingControlsProps> = ({ className = "" }) => 
 
   const handleSaveAll = () => {
     dispatch(saveAllPolygons());
+    toast.success("All polygons saved!");
   };
 
   const handleClearUnsaved = () => {
@@ -34,6 +41,7 @@ const DrawingControls: React.FC<DrawingControlsProps> = ({ className = "" }) => 
   const handleClearAll = () => {
     if (window.confirm('Are you sure you want to delete all polygons? This action cannot be undone.')) {
       dispatch(clearAllPolygons());
+      toast.success("All polygons cleared!");
     }
   };
 

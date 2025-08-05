@@ -3,6 +3,7 @@
 import React, { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { LatLngExpression } from "leaflet";
 import { 
   MapPin, 
   Navigation, 
@@ -22,13 +23,28 @@ interface MapSidebarProps {
   className?: string;
   isMobileOpen?: boolean;
   onMobileClose?: () => void;
+  zoomLevel?: number;
+  center?: LatLngExpression;
 }
 
 const MapSidebar: React.FC<MapSidebarProps> = ({ 
   className = "", 
   isMobileOpen = false, 
-  onMobileClose = () => {} 
+  onMobileClose = () => {},
+  zoomLevel = 14,
+  center = [22.6924, 88.4653]
 }) => {
+
+  // Function to approximate the area in sq km based on zoom level and latitude
+  const getApproximateArea = (zoom: number, latitude: number) => {
+    const metersPerPixel = (156543.03 * Math.cos(latitude * Math.PI / 180)) / (2 ** zoom);
+    // Assuming a map size of roughly 1024x768 pixels for approximation
+    const mapWidthInMeters = metersPerPixel * 1024;
+    const mapHeightInMeters = metersPerPixel * 768;
+    const areaInSqMeters = mapWidthInMeters * mapHeightInMeters;
+    const areaInSqKm = areaInSqMeters / 1000000;
+    return areaInSqKm.toFixed(2);
+  };
 
   return (
     <>
@@ -95,75 +111,15 @@ const MapSidebar: React.FC<MapSidebarProps> = ({
           </CardHeader>
           <CardContent className="space-y-3">
             <div className="flex justify-between items-center">
-              <span className="text-sm text-muted-foreground">Area</span>
-              <span className="text-sm font-medium">Madhyamgram</span>
-            </div>
-            <div className="flex justify-between items-center">
-              <span className="text-sm text-muted-foreground">Coordinates</span>
-              <span className="text-sm font-medium">22.6924°N, 88.4653°E</span>
-            </div>
-            <div className="flex justify-between items-center">
-              <span className="text-sm text-muted-foreground">Zoom Level</span>
-              <span className="text-sm font-medium">14 (2km resolution)</span>
-            </div>
-            <div className="flex justify-between items-center">
               <span className="text-sm text-muted-foreground">Region</span>
               <span className="text-sm font-medium">West Bengal, India</span>
             </div>
-          </CardContent>
-        </Card>
-
-        {/* Map Layers */}
-        <Card>
-          <CardHeader className="pb-3">
-            <CardTitle className="text-lg flex items-center gap-2">
-              <Layers className="h-4 w-4" />
-              Map Layers
-            </CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-3">
-            <div className="flex items-center justify-between">
-              <span className="text-sm">OpenStreetMap</span>
-              <div className="w-3 h-3 bg-green-500 rounded-full"></div>
-            </div>
-            <div className="flex items-center justify-between">
-              <span className="text-sm">Satellite View</span>
-              <div className="w-3 h-3 bg-gray-300 rounded-full"></div>
-            </div>
-            <div className="flex items-center justify-between">
-              <span className="text-sm">Terrain</span>
-              <div className="w-3 h-3 bg-gray-300 rounded-full"></div>
+            <div className="flex justify-between items-center">
+              <span className="text-sm text-muted-foreground">Approx. Area</span>
+              <span className="text-sm font-medium">{getApproximateArea(zoomLevel, Array.isArray(center) ? center[0] : center.lat)} sq km</span>
             </div>
           </CardContent>
         </Card>
-
-
-        
-
-        {/* Information */}
-        <Card>
-          <CardHeader className="pb-3">
-            <CardTitle className="text-lg flex items-center gap-2">
-              <Info className="h-4 w-4" />
-              About This Map
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <p className="text-sm text-muted-foreground leading-relaxed">
-              This map displays the Madhyamgram area in West Bengal, India. 
-              The map is centered at coordinates 22.6924°N, 88.4653°E with a 
-              zoom level that provides approximately 2 square kilometers of 
-              coverage for detailed area analysis.
-            </p>
-          </CardContent>
-        </Card>
-      </div>
-
-      {/* Footer */}
-      <div className="p-4 border-t border-border">
-        <div className="text-xs text-muted-foreground text-center">
-          Powered by OpenStreetMap & React Leaflet
-        </div>
       </div>
     </div>
     </>

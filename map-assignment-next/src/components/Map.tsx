@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect } from "react";
-import { MapContainer, TileLayer, Marker, Popup, Polygon } from "react-leaflet";
+import { MapContainer, TileLayer, Polygon, Popup, useMapEvents } from "react-leaflet";
 import { LatLngExpression } from "leaflet";
 import "leaflet/dist/leaflet.css";
 import "leaflet-defaulticon-compatibility/dist/leaflet-defaulticon-compatibility.css";
@@ -20,16 +20,33 @@ interface MapProps {
   className?: string;
   onOpenMobileSidebar?: () => void;
   isSidebarOpen?: boolean;
+  onZoomChange?: (zoomLevel: number) => void;
+  onCenterChange?: (center: LatLngExpression) => void;
 }
 
 const Map: React.FC<MapProps> = ({ 
   className = "", 
   onOpenMobileSidebar = () => {},
-  isSidebarOpen = false
+  isSidebarOpen = false,
+  onZoomChange = () => {},
+  onCenterChange = () => {}
 }) => {
   const dispatch = useDispatch();
   const { polygons, selectedPolygon, hiddenPolygons } = useSelector((state: RootState) => state.polygon);
   const { polygonData, timeRange, dataType } = useSelector((state: RootState) => state.timeline);
+  
+  const MapEvents = () => {
+    const map = useMapEvents({
+      zoomend: () => {
+        onZoomChange(map.getZoom());
+        onCenterChange(map.getCenter());
+      },
+      moveend: () => {
+        onCenterChange(map.getCenter());
+      },
+    });
+    return null;
+  };
   
   // Function to get weather value for tooltip
   const getWeatherValue = (polygon: PolygonType, timeIndex: number): string => {
@@ -160,19 +177,16 @@ const Map: React.FC<MapProps> = ({
       
       <MapContainer
         center={center}
-        zoom={zoomLevel}
+        zoom={16.5}
+        zoomSnap={0.1}
         scrollWheelZoom={false}
         className="h-full w-full rounded-lg"
       >
+                <MapEvents />
         <TileLayer
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
-        
-        <Marker position={center}>
-          <Popup>Madhyamgram</Popup>
-        </Marker>
-
         {polygons.map((polygon) => {
           if (hiddenPolygons.includes(polygon.id) || !polygon.geoJson.coordinates?.[0]?.length) {
             return null;
