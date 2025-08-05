@@ -95,53 +95,8 @@ const MapSidebar: React.FC<MapSidebarProps> = ({ className = "" }) => {
           </CardContent>
         </Card>
 
-        {/* Navigation Tools */}
-        <Card>
-          <CardHeader className="pb-3">
-            <CardTitle className="text-lg flex items-center gap-2">
-              <Navigation className="h-4 w-4" />
-              Navigation
-            </CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-3">
-            <button className="w-full text-left p-2 rounded-lg hover:bg-muted transition-colors">
-              <div className="text-sm font-medium">Zoom to Fit</div>
-              <div className="text-xs text-muted-foreground">Reset view to default bounds</div>
-            </button>
-            <button className="w-full text-left p-2 rounded-lg hover:bg-muted transition-colors">
-              <div className="text-sm font-medium">Find Location</div>
-              <div className="text-xs text-muted-foreground">Search for places</div>
-            </button>
-            <button className="w-full text-left p-2 rounded-lg hover:bg-muted transition-colors">
-              <div className="text-sm font-medium">Measure Distance</div>
-              <div className="text-xs text-muted-foreground">Calculate distances</div>
-            </button>
-          </CardContent>
-        </Card>
 
-        {/* Map Settings */}
-        <Card>
-          <CardHeader className="pb-3">
-            <CardTitle className="text-lg flex items-center gap-2">
-              <Settings className="h-4 w-4" />
-              Settings
-            </CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-3">
-            <div className="flex items-center justify-between">
-              <span className="text-sm">Scroll Zoom</span>
-              <div className="w-3 h-3 bg-red-500 rounded-full"></div>
-            </div>
-            <div className="flex items-center justify-between">
-              <span className="text-sm">Double Click Zoom</span>
-              <div className="w-3 h-3 bg-red-500 rounded-full"></div>
-            </div>
-            <div className="flex items-center justify-between">
-              <span className="text-sm">Dragging</span>
-              <div className="w-3 h-3 bg-green-500 rounded-full"></div>
-            </div>
-          </CardContent>
-        </Card>
+        
 
         {/* Information */}
         <Card>

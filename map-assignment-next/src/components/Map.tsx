@@ -8,10 +8,12 @@ import "leaflet-defaulticon-compatibility/dist/leaflet-defaulticon-compatibility
 import "leaflet-defaulticon-compatibility";
 import PolygonDrawer from "./PolygonDrawer";
 import DrawingControls from "./DrawingControls";
+import PolygonLegend from "./PolygonLegend";
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '@/store/store';
 import { selectPolygon, updatePolygon } from '@/store/slices/polygonSlice';
 import { getPolygonColor, fetchWeatherData } from '@/store/slices/timelineSlice';
+import { Polygon as PolygonType } from '@/types/polygon';
 
 interface MapProps {
   className?: string;
@@ -21,6 +23,76 @@ const Map: React.FC<MapProps> = ({ className = "" }) => {
   const dispatch = useDispatch();
   const { polygons, selectedPolygon, hiddenPolygons } = useSelector((state: RootState) => state.polygon);
   const { data: weatherData, timeRange, dataType } = useSelector((state: RootState) => state.timeline);
+  
+  // Function to get weather value for tooltip
+  const getWeatherValue = (polygon: PolygonType, timeIndex: number): string => {
+    if (!weatherData || !weatherData.hourly) {
+      return 'Loading...';
+    }
+    
+    // Use the current dataType selected in the timeline
+    const dataArray = weatherData.hourly[dataType];
+    
+    if (!dataArray || !Array.isArray(dataArray) || dataArray.length === 0) {
+      return 'No source';
+    }
+    
+    // Ensure timeIndex is within bounds
+    const safeTimeIndex = Math.min(Math.max(0, timeIndex), dataArray.length - 1);
+    let value = dataArray[safeTimeIndex];
+    let isAveraged = false;
+    
+    // If no data at current time, try to get a fallback average
+    if (value === null || typeof value === 'undefined') {
+      // Strategy 1: Look for nearby valid data points (±12 hours)
+      const searchRadius = 12;
+      const validValues = [];
+      
+      for (let offset = 0; offset <= searchRadius; offset++) {
+        // Check both directions from current time
+        const indices = offset === 0 ? [safeTimeIndex] : [safeTimeIndex - offset, safeTimeIndex + offset];
+        
+        for (const idx of indices) {
+          if (idx >= 0 && idx < dataArray.length) {
+            const val = dataArray[idx];
+            if (val !== null && typeof val !== 'undefined') {
+              validValues.push(val);
+            }
+          }
+        }
+        
+        // If we found some values, calculate average and break
+        if (validValues.length >= 3) break;
+      }
+      
+      if (validValues.length > 0) {
+        value = validValues.reduce((sum, val) => sum + val, 0) / validValues.length;
+        isAveraged = true;
+      } else {
+        // Strategy 2: Get overall average from the entire dataset
+        const allValidValues = dataArray.filter(val => val !== null && typeof val !== 'undefined');
+        if (allValidValues.length > 0) {
+          value = allValidValues.reduce((sum, val) => sum + val, 0) / allValidValues.length;
+          isAveraged = true;
+        } else {
+          return 'No data';
+        }
+      }
+    }
+    
+    // Format based on data type
+    const suffix = isAveraged ? ' (avg)' : '';
+    switch (dataType) {
+      case 'temperature_2m':
+        return `${value.toFixed(1)}°C${suffix}`;
+      case 'precipitation':
+        return `${value.toFixed(1)}mm${suffix}`;
+      case 'wind_speed_10m':
+        return `${value.toFixed(1)}km/h${suffix}`;
+      default:
+        return `${value.toString()}${suffix}`;
+    }
+  };
 
   const center: LatLngExpression = [22.6924, 88.4653];
   const zoomLevel = 14;
@@ -37,7 +109,7 @@ const Map: React.FC<MapProps> = ({ className = "" }) => {
           dataType,
           startDate: startDate.toISOString().split('T')[0],
           endDate: endDate.toISOString().split('T')[0],
-        }));
+        }) as any);
       });
     }
   }, [polygons, timeRange, dataType, dispatch]);
@@ -46,9 +118,38 @@ const Map: React.FC<MapProps> = ({ className = "" }) => {
     dispatch(selectPolygon(polygonId));
   };
 
+  // Helper function to get polygon point count
+  const getPolygonPointCount = (geoJson: GeoJSON.Polygon) => {
+    if (!geoJson.coordinates || !geoJson.coordinates[0] || geoJson.coordinates[0].length === 0) {
+      return 0;
+    }
+    const coords = geoJson.coordinates[0];
+    return Math.max(0, coords.length - 1);
+  };
+
   return (
     <div className={`h-full w-full relative ${className}`}>
+      {/* CSS for smooth transitions */}
+      <style jsx global>{`
+        .polygon-transition {
+          transition: all 0.3s ease-in-out !important;
+        }
+        
+        /* Mobile responsive adjustments */
+        @media (max-width: 768px) {
+          .leaflet-control-container .leaflet-top.leaflet-right {
+            top: 60px;
+            right: 10px;
+          }
+          .leaflet-control-container .leaflet-bottom.leaflet-left {
+            bottom: 10px;
+            left: 10px;
+          }
+        }
+      `}</style>
+      
       <DrawingControls />
+      
       <MapContainer
         center={center}
         zoom={zoomLevel}
@@ -83,13 +184,23 @@ const Map: React.FC<MapProps> = ({ className = "" }) => {
                 color: color,
                 weight: 2,
                 fillOpacity: selectedPolygon === polygon.id ? 0.7 : 0.5,
+                className: 'polygon-transition',
               }}
               eventHandlers={{
                 click: () => handlePolygonClick(polygon.id),
               }}
             >
               <Popup>
-                {polygon.name} - {color}
+                <div className="text-sm">
+                  <div className="font-semibold mb-1">{polygon.name}</div>
+                  <div className="space-y-1">
+                    <div>Value: {getWeatherValue(polygon, timeRange[0])}</div>
+                    <div>Color: <span className="inline-block w-3 h-3 rounded-full ml-1" style={{ backgroundColor: color }}></span></div>
+                    <div className="text-xs text-muted-foreground">
+                      {getPolygonPointCount(polygon.geoJson)} points
+                    </div>
+                  </div>
+                </div>
               </Popup>
             </Polygon>
           );
@@ -97,6 +208,8 @@ const Map: React.FC<MapProps> = ({ className = "" }) => {
 
         <PolygonDrawer />
       </MapContainer>
+      
+      <PolygonLegend polygons={polygons} dataType={dataType} />
     </div>
   );
 };

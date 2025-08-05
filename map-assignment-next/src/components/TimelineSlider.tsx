@@ -55,10 +55,7 @@ const TimelineSlider = () => {
           <div className="w-48">
             <Select onValueChange={handleDataTypeChange} defaultValue={dataType}>
               <SelectTrigger>
-                <div className="flex items-center gap-2">
-                  <SelectedIcon className="h-4 w-4" />
-                  <SelectValue placeholder="Select data type" />
-                </div>
+                <SelectValue placeholder="Select data type" />
               </SelectTrigger>
               <SelectContent>
                 {dataTypes.map((type) => (

@@ -40,7 +40,7 @@ const DrawingControls: React.FC<DrawingControlsProps> = ({ className = "" }) => 
   const unsavedCount = polygons.filter(p => !savedPolygons.some(s => s.id === p.id)).length;
 
   return (
-    <div className={`absolute top-4 left-4 z-[1000] bg-white dark:bg-gray-800 p-3 rounded-lg shadow-lg border ${className}`}>
+    <div className={`absolute top-4 right-4 z-[1000] bg-white/95 dark:bg-gray-800/95 backdrop-blur-sm p-3 rounded-lg shadow-lg border ${className}`}>
       <div className="flex flex-col gap-2">
         <Button
           variant={isDrawing ? "default" : "outline"}

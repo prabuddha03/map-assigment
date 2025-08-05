@@ -7,11 +7,13 @@ import {
   removePolygon, 
   selectPolygon, 
   togglePolygonVisibility, 
-  savePolygon 
+  savePolygon,
+  updatePolygon
 } from '@/store/slices/polygonSlice';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
+import { Input } from '@/components/ui/input';
 import { 
   Trash2, 
   Hexagon as PolygonIcon, 
@@ -28,6 +30,8 @@ const PolygonList: React.FC = () => {
   const dispatch = useDispatch();
   const { polygons, savedPolygons, selectedPolygon, hiddenPolygons } = useSelector((state: RootState) => state.polygon);
   const [expandedPolygon, setExpandedPolygon] = useState<string | null>(null);
+  const [editingName, setEditingName] = useState<string | null>(null);
+  const [tempName, setTempName] = useState<string>('');
 
   const handleDelete = (id: string) => {
     dispatch(removePolygon(id));
@@ -48,6 +52,24 @@ const PolygonList: React.FC = () => {
 
   const handleSavePolygon = (id: string) => {
     dispatch(savePolygon(id));
+  };
+
+  const handleStartEditName = (id: string, currentName: string) => {
+    setEditingName(id);
+    setTempName(currentName);
+  };
+
+  const handleSaveName = (id: string) => {
+    if (tempName.trim()) {
+      dispatch(updatePolygon({ id, updates: { name: tempName.trim() } }));
+    }
+    setEditingName(null);
+    setTempName('');
+  };
+
+  const handleCancelEditName = () => {
+    setEditingName(null);
+    setTempName('');
   };
 
   const formatDate = (date: Date) => {
@@ -136,9 +158,36 @@ const PolygonList: React.FC = () => {
                       className="w-3 h-3 rounded-full border"
                       style={{ backgroundColor: polygon.color }}
                     />
-                    <h4 className="text-sm font-medium truncate">
-                      {polygon.name}
-                    </h4>
+                    {editingName === polygon.id ? (
+                      <div className="flex items-center gap-1 flex-1">
+                        <Input
+                          value={tempName}
+                          onChange={(e) => setTempName(e.target.value)}
+                          onKeyDown={(e) => {
+                            if (e.key === 'Enter') handleSaveName(polygon.id);
+                            if (e.key === 'Escape') handleCancelEditName();
+                          }}
+                          className="text-sm h-6 px-2"
+                          autoFocus
+                        />
+                        <Button
+                          variant="ghost"
+                          size="sm"
+                          onClick={() => handleSaveName(polygon.id)}
+                          className="h-6 w-6 p-0 text-green-600"
+                        >
+                          <Save className="h-3 w-3" />
+                        </Button>
+                      </div>
+                    ) : (
+                      <h4 
+                        className="text-sm font-medium truncate cursor-pointer hover:text-blue-600"
+                        onClick={() => handleStartEditName(polygon.id, polygon.name)}
+                        title="Click to edit name"
+                      >
+                        {polygon.name}
+                      </h4>
+                    )}
                   </div>
                   
                   <div className="space-y-1">
