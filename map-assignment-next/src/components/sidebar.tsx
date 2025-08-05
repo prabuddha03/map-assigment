@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import AlertTable from "./alert-table";
 import { SidebarMetricsSkeleton, AlertTableSkeleton } from "./sidebar-skeleton";
 import { useTimeSeriesData } from "@/hooks/useTimeSeriesData";

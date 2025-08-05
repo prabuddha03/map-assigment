@@ -7,7 +7,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/store/store";
 import { setDate, setDateRange, setIsRange, setIsPlaying } from "@/store/slices/dateSlice";
 import { format } from "date-fns";
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 
 export default function SliderControl() {
   const dispatch = useDispatch();

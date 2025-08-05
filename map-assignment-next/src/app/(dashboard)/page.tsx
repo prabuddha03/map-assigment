@@ -1,5 +1,6 @@
 "use client";
 
+import React, { Suspense, useMemo, useState, useEffect } from "react";
 import dynamic from "next/dynamic";
 import KpiCard from "@/components/kpi-card";
 import {
@@ -9,7 +10,6 @@ import {
   Cpu,
   LucideProps,
 } from "lucide-react";
-import { Suspense, useMemo, useState, useEffect } from "react";
 import SliderControl from "@/components/slider-control";
 import PlaybackControls from "@/components/playback-controls";
 import KpiCardSkeleton from "@/components/kpi-card-skeleton";

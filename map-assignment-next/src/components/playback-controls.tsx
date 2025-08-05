@@ -17,7 +17,7 @@ import {
   setPlaybackSpeed,
   advanceTime,
 } from "@/store/slices/dateSlice";
-import { useEffect } from "react";
+import React, { useEffect } from "react";
 
 export default function PlaybackControls() {
   const dispatch = useDispatch();
