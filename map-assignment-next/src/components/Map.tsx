@@ -10,8 +10,8 @@ import PolygonDrawer from "./PolygonDrawer";
 import DrawingControls from "./DrawingControls";
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '@/store/store';
-import { selectPolygon } from '@/store/slices/polygonSlice';
-import { getPolygonColor } from '@/store/slices/timelineSlice';
+import { selectPolygon, updatePolygon } from '@/store/slices/polygonSlice';
+import { getPolygonColor, fetchWeatherData } from '@/store/slices/timelineSlice';
 
 interface MapProps {
   className?: string;
@@ -20,14 +20,27 @@ interface MapProps {
 const Map: React.FC<MapProps> = ({ className = "" }) => {
   const dispatch = useDispatch();
   const { polygons, selectedPolygon, hiddenPolygons } = useSelector((state: RootState) => state.polygon);
-  const { data: weatherData, timeRange } = useSelector((state: RootState) => state.timeline);
+  const { data: weatherData, timeRange, dataType } = useSelector((state: RootState) => state.timeline);
 
   const center: LatLngExpression = [22.6924, 88.4653];
   const zoomLevel = 14;
 
   useEffect(() => {
-    // This effect can be used for any initial map setup
-  }, []);
+    if (polygons.length > 0) {
+      const today = new Date();
+      const startDate = new Date(new Date().setDate(today.getDate() - 30));
+      const endDate = new Date();
+
+      polygons.forEach(polygon => {
+        dispatch(fetchWeatherData({
+          polygon,
+          dataType,
+          startDate: startDate.toISOString().split('T')[0],
+          endDate: endDate.toISOString().split('T')[0],
+        }));
+      });
+    }
+  }, [polygons, timeRange, dataType, dispatch]);
 
   const handlePolygonClick = (polygonId: string) => {
     dispatch(selectPolygon(polygonId));
