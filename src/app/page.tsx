@@ -4,7 +4,6 @@ import React, { useState } from "react";
 import Link from "next/link";
 import { ArrowRight, Github, ExternalLink, Code, MapPin, Zap, FileText, Loader2 } from "lucide-react";
 
-// Replace this with your actual CDN image link
 const PROFILE_IMAGE_URL = "https://pub-59b3362b9c604d388203b247ffff7743.r2.dev/Prabuddha_chowdhury_image%20copy.jpeg";
 const CV_PDF_URL = "https://pub-59b3362b9c604d388203b247ffff7743.r2.dev/Prabuddha_Chowdhury.pdf";
 
